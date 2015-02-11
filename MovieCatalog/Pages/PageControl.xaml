@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="MovieCatalog.Pages.PageControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:test="clr-namespace:MovieCatalog.HelperClasses"
+             mc:Ignorable="d" Height="auto" Width="659.1"
+             HorizontalAlignment="Stretch"
+             VerticalAlignment="Stretch">
+
+    <Grid Style="{StaticResource ContentRoot}" Margin="10" Height="auto" Width="auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="114*"/>
+            <RowDefinition Height="89*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ListBox x:Name="lbMovies" HorizontalAlignment="Left" Height="208" Margin="6,15,0,0" VerticalAlignment="Top" Width="126" BorderBrush="Silver" BorderThickness="1">
+            <ListBoxItem Content="Dawn Of The Dead"/>
+            <ListBoxItem Content="Ernest Goes To Hell"/>
+        </ListBox>
+        <Image HorizontalAlignment="Left" Height="208" Margin="137,10,0,0" VerticalAlignment="Top" Width="150" Source="/pages/image.jpg"/>
+        <ScrollViewer VerticalAlignment="Top" Height="148" Width="229" HorizontalAlignment="Left" Margin="302,10,0,0">
+            <TextBlock x:Name="txtDescription" TextWrapping="Wrap" Text=" Zombes get in a place and eat guys D:" Width="228"/>
+
+        </ScrollViewer>
+        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Meta Rating: 6/10" VerticalAlignment="Top" Width="120" Margin="302,158,0,0"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="302,186,0,0" TextWrapping="Wrap" Text="User Rating: 1/10" VerticalAlignment="Top" Width="120"/>
+        <Button Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="244,157,0,0" Grid.Row="1" Height="26"/>
+        <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="14,41,0,0" Grid.Row="1" VerticalAlignment="Top" Height="17" Width="71"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="14,13,0,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+        <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="14,63,0,0" Grid.Row="1" VerticalAlignment="Top" Height="17" Width="71"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="14,85,0,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+
+    </Grid>
+</UserControl>

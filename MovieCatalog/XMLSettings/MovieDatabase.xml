@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<movies>
+  <movie>
+    <name>Dawn of the Dead</name>
+    <year>2004</year>
+    <image>dawn-dead-2004.jpg</image>
+    <imagelocal>false</imagelocal>
+    <movieid>5</movieid>
+    <rating></rating>
+    <userrating></userrating>
+  </movie>
+</movies>
