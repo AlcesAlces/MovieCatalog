@@ -1,4 +1,5 @@
-﻿using MovieCatalog.HelperClasses;
+﻿using MovieCatalog.Helper_Functions;
+using MovieCatalog.HelperClasses;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -56,6 +57,58 @@ namespace MovieCatalog.Pages
         public ObservableCollection<Movie> MovieCollection
         {
             get { return _MovieCollection; }
+        }
+
+        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        {
+            Tmdb query = new Tmdb(apikey, language);
+
+            foreach(Movie item in lvResults.SelectedItems)
+            {
+                TmdbMovie movie = query.GetMovieInfo(item.mid);
+                TmdbMovieImages image = query.GetMovieImages(movie.id);
+                
+
+                if (FileHandlers.isMovieDuplicate(movie.id))
+                {
+                    MessageBox.Show(movie.title + " is already in the xml file!");
+                }
+
+                else
+                {
+                    string posterLocation = "";
+
+                    try
+                    {
+                        posterLocation = image.posters[0].file_path;
+                    } 
+
+                    catch(Exception ex)
+                    {
+                        posterLocation = "NONE";
+                    }
+
+                    FileHandlers.addMovie(new Movie
+                    {
+                        description = movie.overview,
+                        imageLocation = posterLocation,
+                        mid = movie.id,
+                        name = movie.title,
+                        onlineRating = movie.vote_average,
+                        userRating = 0.0,
+                        year = movie.release_date,
+                        genres = movie.genres
+                    });
+                }
+            }
+
+            //Refresh the movie list
+            List<Movie> movies = FileHandlers.allMoviesInXml();
+            Global._MovieCollection.Clear();
+            foreach(Movie movie in movies)
+            {
+                Global._MovieCollection.Add(movie);
+            }
         }
     }
 }

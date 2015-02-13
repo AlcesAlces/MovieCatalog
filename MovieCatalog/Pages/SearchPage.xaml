@@ -32,6 +32,7 @@
             </ListView.View>
         </ListView>
         <Button x:Name="btnSearch" Content="search" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,38,0,0" Click="btnSearch_Click"/>
+        <Button Content="Add Selected" Name="btnAdd" HorizontalAlignment="Left" Margin="10,268,0,0" VerticalAlignment="Top" Width="120" Click="btnAdd_Click"/>
 
     </Grid>
 </UserControl>

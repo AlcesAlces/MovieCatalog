@@ -75,7 +75,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Compile Include="Helper Functions\FileUtility.cs" />
+    <Compile Include="Global.cs" />
+    <Compile Include="Helper Functions\FileHandlers.cs" />
+    <Compile Include="Helper Functions\Filtering.cs" />
     <Compile Include="HelperClasses\Movie.cs" />
     <Compile Include="Pages\BasicPage.xaml.cs">
       <DependentUpon>BasicPage.xaml</DependentUpon>

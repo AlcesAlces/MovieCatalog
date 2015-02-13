@@ -1,4 +1,5 @@
 ﻿using FirstFloor.ModernUI.Windows.Controls;
+using MovieCatalog.Helper_Functions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,7 @@ namespace MovieCatalog
     {
         public MainWindow()
         {
+            FileHandlers.verifyUserFile();
             InitializeComponent();
         }
     }

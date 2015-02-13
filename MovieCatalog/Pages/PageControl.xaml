@@ -4,9 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:test="clr-namespace:MovieCatalog.HelperClasses"
-             mc:Ignorable="d" Height="auto" Width="659.1"
-             HorizontalAlignment="Stretch"
-             VerticalAlignment="Stretch">
+             mc:Ignorable="d" Height="443" Width="739.1"
+             DataContext="{Binding RelativeSource={RelativeSource Self}}">
 
     <Grid Style="{StaticResource ContentRoot}" Margin="10" Height="auto" Width="auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
@@ -16,22 +15,31 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <ListBox x:Name="lbMovies" HorizontalAlignment="Left" Height="208" Margin="6,15,0,0" VerticalAlignment="Top" Width="126" BorderBrush="Silver" BorderThickness="1">
-            <ListBoxItem Content="Dawn Of The Dead"/>
-            <ListBoxItem Content="Ernest Goes To Hell"/>
-        </ListBox>
-        <Image HorizontalAlignment="Left" Height="208" Margin="137,10,0,0" VerticalAlignment="Top" Width="150" Source="/pages/image.jpg"/>
-        <ScrollViewer VerticalAlignment="Top" Height="148" Width="229" HorizontalAlignment="Left" Margin="302,10,0,0">
-            <TextBlock x:Name="txtDescription" TextWrapping="Wrap" Text=" Zombes get in a place and eat guys D:" Width="228"/>
+        <Button x:Name="btnFilter" Content="Apply Filter" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="301,105,0,0" Grid.Row="1" Height="26" Click="btnFilter_Click"/>
+        <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="100,143,0,0" Grid.Row="1" VerticalAlignment="Top" Height="17" Width="71"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="10,98,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Name="tbName"/>
+        <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="14,143,0,0" Grid.Row="1" VerticalAlignment="Top" Height="17" Width="71"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="161,105,0,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
+        <ListView x:Name="lvMovies" HorizontalAlignment="Left" Height="218" VerticalAlignment="Top" Width="191" ItemsSource="{Binding MovieCollection}" SelectionChanged="lvMovies_SelectionChanged">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Width="90" Header="Name" DisplayMemberBinding="{Binding name}"/>
+                    <GridViewColumn Width="50" Header="Year" DisplayMemberBinding="{Binding year}"/>
 
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <Image x:Name="imgPoster" HorizontalAlignment="Left" Height="218" Margin="196,0,0,0" VerticalAlignment="Top" Width="150" Source="{Binding ImageDisplay}"/>
+        <Label x:Name="lblOnlineRating" HorizontalAlignment="Left" Margin="351,172,0,0" VerticalAlignment="Top" Content="{Binding OnlineRatingDisplay}"/>
+        <Label x:Name="lblUserRating" Content="..." HorizontalAlignment="Left" Margin="494,163,0,0" VerticalAlignment="Top"/>
+        <ScrollViewer VerticalAlignment="Top" Height="148" Width="278" HorizontalAlignment="Left" Margin="351,10,0,0">
+            <TextBlock x:Name="txtDescription" TextWrapping="Wrap" Width="229" Text="{Binding Path=DescriptionDisplay}"/>
         </ScrollViewer>
-        <TextBox HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="Meta Rating: 6/10" VerticalAlignment="Top" Width="120" Margin="302,158,0,0"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="302,186,0,0" TextWrapping="Wrap" Text="User Rating: 1/10" VerticalAlignment="Top" Width="120"/>
-        <Button Content="Button" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="244,157,0,0" Grid.Row="1" Height="26"/>
-        <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="14,41,0,0" Grid.Row="1" VerticalAlignment="Top" Height="17" Width="71"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="14,13,0,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="14,63,0,0" Grid.Row="1" VerticalAlignment="Top" Height="17" Width="71"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="14,85,0,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-
+        <TextBox HorizontalAlignment="Left" Name="tbGenres" Height="23" Margin="351,195,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="278" HorizontalScrollBarVisibility="Visible" Text="{Binding OnlineRatingDisplay}"/>
+        <Label Content="Filtering Options" HorizontalAlignment="Left" Margin="14,36,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Label Content="Movie Name" HorizontalAlignment="Left" Margin="14,78,0,0" Grid.Row="1" VerticalAlignment="Top"/>
+        <Button x:Name="btnReset" Content="Reset" HorizontalAlignment="Left" Margin="301,136,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="btnReset_Click"/>
+        <Button Content="Button" HorizontalAlignment="Left" Height="1" Margin="281,28,0,0" Grid.Row="1" VerticalAlignment="Top" Width="0"/>
+        <Button x:Name="btnRemove" Content="Remove Selections" HorizontalAlignment="Left" Margin="10,5,0,0" Grid.Row="1" VerticalAlignment="Top" Width="147" Click="btnRemove_Click"/>
     </Grid>
 </UserControl>
