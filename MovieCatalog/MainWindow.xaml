@@ -7,7 +7,7 @@
         ContentSource="/Pages/Home.xaml" Width="995.76" Height="580.202">
 
     <mui:ModernWindow.MenuLinkGroups>
-        <mui:LinkGroup DisplayName="welcome">
+        <mui:LinkGroup DisplayName="Movies">
             <mui:LinkGroup.Links>
                 <mui:Link DisplayName="home" Source="/Pages/Home.xaml" />
                 <mui:Link DisplayName="search" Source="/Pages/SearchPage.xaml" />

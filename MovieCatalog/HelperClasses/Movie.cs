@@ -37,7 +37,14 @@ namespace MovieCatalog.HelperClasses
                 toReturn += genre.name + ",";
             }
 
-            return toReturn.Substring(0, toReturn.Count() - 1);
+            if (toReturn == "")
+            {
+                return toReturn;
+            }
+            else
+            {
+                return toReturn.Substring(0, toReturn.Count() - 1);
+            }
         }
 
         public void setGenreCommaSeperated(string toBeParsed)

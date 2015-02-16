@@ -2,13 +2,33 @@
 <usersettings>
   <movies>
     <movie>
-      <name>Homeward Bound: The Incredible Journey</name>
-      <genres>Adventure,Comedy,Drama,Family</genres>
-      <year>1993-02-03</year>
-      <image>/iYoBxNDgL37iuJGJNQpg8kQwA2u.jpg</image>
-      <movieid>6878</movieid>
-      <rating>6.7</rating>
-      <description>Remake of the popular Disney classic, this time featuring some well known voices as two dogs and a cat trek across America encountering all sorts of adventures in the quest to be reunited with their owners.</description>
+      <name>The Lord of the Rings: The Two Towers</name>
+      <genres>Action,Adventure,Fantasy</genres>
+      <year>2002-12-18</year>
+      <image>/5o5fv1dHG7vWoH2hmqwihVPBoBm.jpg</image>
+      <movieid>121</movieid>
+      <rating>7.5</rating>
+      <description>Frodo and Sam are trekking to Mordor to destroy the One Ring of Power while Gimli, Legolas and Aragorn search for the orc-captured Merry and Pippin. All along, nefarious wizard Saruman awaits the Fellowship members at the Orthanc Tower in Isengard.</description>
+      <userrating>0</userrating>
+    </movie>
+    <movie>
+      <name>The Lord of the Rings: The Return of the King</name>
+      <genres>Action,Adventure,Fantasy</genres>
+      <year>2003-12-01</year>
+      <image>/50LoR9gJhbWZ5PpoHgi8MNTYgzd.jpg</image>
+      <movieid>122</movieid>
+      <rating>7.7</rating>
+      <description>Aragorn is revealed as the heir to the ancient kings as he, Gandalf and the other members of the broken fellowship struggle to save Gondor from Sauron's forces. Meanwhile, Frodo and Sam bring the ring closer to the heart of Mordor, the dark lord's realm.</description>
+      <userrating>0</userrating>
+    </movie>
+    <movie>
+      <name>Indiana Jones and the Last Crusade</name>
+      <genres>Action,Adventure</genres>
+      <year>1989-05-24</year>
+      <image>/4p1N2Qrt8j0H8xMHMHvtRxv9weZ.jpg</image>
+      <movieid>89</movieid>
+      <rating>7.3</rating>
+      <description>When Dr. Henry Jones Sr. suddenly goes missing while pursuing the Holy Grail, eminent archaeologist Indiana Jones must team up with Marcus Brody, Sallah, and Elsa Schneider to follow in his father's footsteps and stop the Nazis from recovering the power of eternal life.</description>
       <userrating>0</userrating>
     </movie>
   </movies>

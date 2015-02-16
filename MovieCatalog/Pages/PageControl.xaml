@@ -9,37 +9,35 @@
 
     <Grid Style="{StaticResource ContentRoot}" Margin="10" Height="auto" Width="auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
-            <RowDefinition Height="114*"/>
-            <RowDefinition Height="89*"/>
+            <RowDefinition Height="275*"/>
+            <RowDefinition Height="148*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="btnFilter" Content="Apply Filter" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="301,105,0,0" Grid.Row="1" Height="26" Click="btnFilter_Click"/>
-        <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="100,143,0,0" Grid.Row="1" VerticalAlignment="Top" Height="17" Width="71"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="10,98,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Name="tbName"/>
-        <CheckBox Content="CheckBox" HorizontalAlignment="Left" Margin="14,143,0,0" Grid.Row="1" VerticalAlignment="Top" Height="17" Width="71"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="161,105,0,0" Grid.Row="1" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120"/>
-        <ListView x:Name="lvMovies" HorizontalAlignment="Left" Height="218" VerticalAlignment="Top" Width="191" ItemsSource="{Binding MovieCollection}" SelectionChanged="lvMovies_SelectionChanged">
+        <Button x:Name="btnFilter" Content="Apply Filter" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="301,72,0,0" Height="26" Click="btnFilter_Click" Grid.Row="1"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="10,65,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Name="tbName" Grid.Row="1"/>
+        <ListView x:Name="lvMovies" HorizontalAlignment="Left" Height="218" VerticalAlignment="Top" Width="257" ItemsSource="{Binding MovieCollection}" SelectionChanged="lvMovies_SelectionChanged">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="90" Header="Name" DisplayMemberBinding="{Binding name}"/>
+                    <GridViewColumn Width="150" Header="Name" DisplayMemberBinding="{Binding name}"/>
                     <GridViewColumn Width="50" Header="Year" DisplayMemberBinding="{Binding year}"/>
 
                 </GridView>
             </ListView.View>
         </ListView>
-        <Image x:Name="imgPoster" HorizontalAlignment="Left" Height="218" Margin="196,0,0,0" VerticalAlignment="Top" Width="150" Source="{Binding ImageDisplay}"/>
-        <Label x:Name="lblOnlineRating" HorizontalAlignment="Left" Margin="351,172,0,0" VerticalAlignment="Top" Content="{Binding OnlineRatingDisplay}"/>
-        <Label x:Name="lblUserRating" Content="..." HorizontalAlignment="Left" Margin="494,163,0,0" VerticalAlignment="Top"/>
-        <ScrollViewer VerticalAlignment="Top" Height="148" Width="278" HorizontalAlignment="Left" Margin="351,10,0,0">
+        <Image x:Name="imgPoster" HorizontalAlignment="Left" Height="218" Margin="271,0,0,0" VerticalAlignment="Top" Width="150" Source="{Binding ImageDisplay}"/>
+        <Label x:Name="lblOnlineRating" HorizontalAlignment="Left" Margin="431,172,0,0" VerticalAlignment="Top" Content="{Binding OnlineRatingDisplay}"/>
+        <Label x:Name="lblUserRating" Content="..." HorizontalAlignment="Left" Margin="683,172,0,0" VerticalAlignment="Top" Height="16" Width="8"/>
+        <ScrollViewer VerticalAlignment="Top" Height="148" Width="278" HorizontalAlignment="Left" Margin="431,10,0,0">
             <TextBlock x:Name="txtDescription" TextWrapping="Wrap" Width="229" Text="{Binding Path=DescriptionDisplay}"/>
         </ScrollViewer>
-        <TextBox HorizontalAlignment="Left" Name="tbGenres" Height="23" Margin="351,195,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="278" HorizontalScrollBarVisibility="Visible" Text="{Binding OnlineRatingDisplay}"/>
-        <Label Content="Filtering Options" HorizontalAlignment="Left" Margin="14,36,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <Label Content="Movie Name" HorizontalAlignment="Left" Margin="14,78,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <Button x:Name="btnReset" Content="Reset" HorizontalAlignment="Left" Margin="301,136,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="btnReset_Click"/>
-        <Button Content="Button" HorizontalAlignment="Left" Height="1" Margin="281,28,0,0" Grid.Row="1" VerticalAlignment="Top" Width="0"/>
-        <Button x:Name="btnRemove" Content="Remove Selections" HorizontalAlignment="Left" Margin="10,5,0,0" Grid.Row="1" VerticalAlignment="Top" Width="147" Click="btnRemove_Click"/>
+        <TextBox HorizontalAlignment="Left" IsReadOnly="True" Name="tbGenres" Height="23" Margin="431,195,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="278" HorizontalScrollBarVisibility="Visible" Text="{Binding OnlineRatingDisplay}"/>
+        <Label Content="Filtering Options" HorizontalAlignment="Left" Margin="10,24,0,0" VerticalAlignment="Top" Height="16" Width="88" Grid.Row="1"/>
+        <Label Content="Movie Name" HorizontalAlignment="Left" Margin="14,45,0,0" VerticalAlignment="Top" Height="16" Width="68" Grid.Row="1"/>
+        <Button x:Name="btnReset" Content="Reset" HorizontalAlignment="Left" Margin="301,103,0,0" VerticalAlignment="Top" Width="75" Click="btnReset_Click" Height="26" Grid.Row="1"/>
+        <Button Content="Button" HorizontalAlignment="Left" Height="1" Margin="281,270,0,0" VerticalAlignment="Top" Width="0"/>
+        <Button x:Name="btnRemove" Content="Remove Selections" HorizontalAlignment="Left" Margin="10,247,0,0" VerticalAlignment="Top" Width="147" Click="btnRemove_Click" Height="26"/>
+        <Border BorderBrush="Silver" BorderThickness="1" HorizontalAlignment="Left" Height="124" Margin="0,24,0,0" Grid.Row="1" VerticalAlignment="Top" Width="433"/>
     </Grid>
 </UserControl>

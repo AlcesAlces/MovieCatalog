@@ -27,7 +27,6 @@ namespace MovieCatalog.Pages
     /// </summary>
     public partial class PageControl : UserControl
     {
-        string moviePosterPath = "https://image.tmdb.org/t/p/w396";
         ObservableCollection<Movie> _MovieCollection = Global._MovieCollection;
         public BitmapImage _image; 
 
@@ -35,6 +34,10 @@ namespace MovieCatalog.Pages
         {
             initDefaultValues();
             InitializeComponent();
+            imgPoster.Source = ImageDisplay;
+            lblOnlineRating.Content = OnlineRatingDisplay;
+            txtDescription.Text = DescriptionDisplay;
+            tbGenres.Text = GenresDisplay;
         }
 
         /// <summary>
@@ -81,7 +84,7 @@ namespace MovieCatalog.Pages
                 {
                     BitmapImage bitmap = new BitmapImage();
                     bitmap.BeginInit();
-                    bitmap.UriSource = new Uri(moviePosterPath + ((Movie)lvMovies.SelectedItem).imageLocation, UriKind.Absolute);
+                    bitmap.UriSource = new Uri(Global.moviePosterPath + ((Movie)lvMovies.SelectedItem).imageLocation, UriKind.Absolute);
                     bitmap.EndInit();
                     return bitmap;
                 }
@@ -90,7 +93,7 @@ namespace MovieCatalog.Pages
                 {
                     BitmapImage bitmap = new BitmapImage();
                     bitmap.BeginInit();
-                    bitmap.UriSource = new Uri(moviePosterPath + _MovieCollection[0].imageLocation, UriKind.Absolute);
+                    bitmap.UriSource = new Uri(Global.moviePosterPath + _MovieCollection[0].imageLocation, UriKind.Absolute);
                     bitmap.EndInit();
                     return bitmap;
                 }

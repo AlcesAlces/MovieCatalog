@@ -140,11 +140,6 @@
     </Resource>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Pages\image.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
     <Content Include="Resources\doom.jpg" />
     <Content Include="XMLSettings\MovieDatabase.xml" />
     <Content Include="XMLSettings\UserSettings.xml" />

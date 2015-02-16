@@ -137,6 +137,8 @@ namespace MovieCatalog.Helper_Functions
                     });
             }
 
+            moviesToReturn = moviesToReturn.OrderBy(x => x.name).ToList();
+
             return moviesToReturn;
         }
 
