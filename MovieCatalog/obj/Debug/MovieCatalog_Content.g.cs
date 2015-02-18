@@ -8,7 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/doom.jpg")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("xmlsettings/moviedatabase.xml")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("xmlsettings/usersettings.xml")]
 

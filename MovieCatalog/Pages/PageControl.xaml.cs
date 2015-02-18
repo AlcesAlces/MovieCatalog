@@ -3,6 +3,8 @@ using MovieCatalog.HelperClasses;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +13,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -82,26 +85,62 @@ namespace MovieCatalog.Pages
 
                 if(nullTest != null)
                 {
-                    BitmapImage bitmap = new BitmapImage();
-                    bitmap.BeginInit();
-                    bitmap.UriSource = new Uri(Global.moviePosterPath + ((Movie)lvMovies.SelectedItem).imageLocation, UriKind.Absolute);
-                    bitmap.EndInit();
-                    return bitmap;
+                    if (((Movie)lvMovies.SelectedItem).imageLocation == "NONE")
+                    {
+                        return genericImage();
+                    }
+
+                    else
+                    {
+                        BitmapImage bitmap = new BitmapImage();
+                        bitmap.BeginInit();
+                        bitmap.UriSource = new Uri(Global.moviePosterPath + ((Movie)lvMovies.SelectedItem).imageLocation, UriKind.Absolute);
+                        bitmap.EndInit();
+                        return bitmap;
+                    }
                 }
 
                 else if (_MovieCollection.Count != 0)
                 {
-                    BitmapImage bitmap = new BitmapImage();
-                    bitmap.BeginInit();
-                    bitmap.UriSource = new Uri(Global.moviePosterPath + _MovieCollection[0].imageLocation, UriKind.Absolute);
-                    bitmap.EndInit();
-                    return bitmap;
+                    if (_MovieCollection[0].imageLocation == "NONE")
+                    {
+                        return genericImage();
+                    }
+                    else
+                    {
+                        BitmapImage bitmap = new BitmapImage();
+                        bitmap.BeginInit();
+                        bitmap.UriSource = new Uri(Global.moviePosterPath + _MovieCollection[0].imageLocation, UriKind.Absolute);
+                        bitmap.EndInit();
+                        return bitmap;
+                    }
                 }
 
                 else
                 {
                     return null;
                 }
+            }
+        }
+
+        /// <summary>
+        /// Returns a generic image to put in the image box.
+        /// </summary>
+        /// <returns></returns>
+        private BitmapImage genericImage()
+        {
+            using (var memory = new MemoryStream())
+            {
+                MovieCatalog.Properties.Resources._5iRXRbX4T.Save(memory, ImageFormat.Png);
+                memory.Position = 0;
+
+                var bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.StreamSource = memory;
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.EndInit();
+
+                return bitmapImage;
             }
         }
 
@@ -241,8 +280,21 @@ namespace MovieCatalog.Pages
         private void btnRemove_Click(object sender, RoutedEventArgs e)
         {
 
+            removeMovies();
+        }
+
+        private void lvMovies_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Delete)
+            {
+                removeMovies();
+            }
+        }
+
+        private void removeMovies()
+        {
             if (MessageBox.Show("Are you sure you want to delete these " +
-                                lvMovies.SelectedItems.Count + " movies?","Confirm", MessageBoxButton.OKCancel)
+                                lvMovies.SelectedItems.Count + " movies?", "Confirm", MessageBoxButton.OKCancel)
                 == MessageBoxResult.OK)
             {
 
@@ -265,7 +317,7 @@ namespace MovieCatalog.Pages
                 {
                     List<Movie> temp = FileHandlers.allMoviesInXml();
                     _MovieCollection.Clear();
-                    foreach(Movie item in temp)
+                    foreach (Movie item in temp)
                     {
                         _MovieCollection.Add(item);
                     }

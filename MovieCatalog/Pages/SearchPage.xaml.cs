@@ -3,6 +3,8 @@ using MovieCatalog.HelperClasses;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -63,6 +65,7 @@ namespace MovieCatalog.Pages
                 selectedMovie = api.GetMovieInfo(test.results[0].id);
             }
 
+            applyImageResults();
         }
 
         public ObservableCollection<Movie> MovieCollection
@@ -153,31 +156,77 @@ namespace MovieCatalog.Pages
         private void lvResults_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-            Movie movieId = ((Movie)lvResults.SelectedItem);
-
-            if(movieId != null)
-            {
-                Tmdb connection = new Tmdb(apikey, language);
-                selectedMovie = connection.GetMovieInfo(movieId.mid);
-                TmdbMovieImages images = connection.GetMovieImages(movieId.mid);
-
-                try
-                {
-
-                    BitmapImage bitmap = new BitmapImage();
-                    bitmap.BeginInit();
-                    bitmap.UriSource = new Uri(Global.moviePosterPath + images.posters[0].file_path, UriKind.Absolute);
-                    bitmap.EndInit();
-                    imageSearch.Source = bitmap;
-                }
-                catch(Exception ex)
-                {
-
-                }
-            }
-
+            applyImageResults();
             txtDescription.Text = Description;
             lblTitle.Content = TitleDisplay;
+        }
+
+        //Assign the appropriate image to the display image based on selection.
+        private void applyImageResults()
+        {
+            Movie movieId = ((Movie)lvResults.SelectedItem);
+            Tmdb connection = new Tmdb(apikey, language);
+            TmdbMovieImages images;
+
+            //An element in the list is selected, no need to recalcuate
+            if (movieId != null)
+            {
+                selectedMovie = connection.GetMovieInfo(movieId.mid);
+                images = connection.GetMovieImages(movieId.mid);
+                setImage(images);
+            }
+            //An element in the list is not selected, recalculate setting element 0
+            else
+            {
+                movieId = ((Movie)lvResults.Items[0]);
+                selectedMovie = connection.GetMovieInfo(movieId.mid);
+                images = connection.GetMovieImages(movieId.mid);
+
+                setImage(images);
+                
+            }
+        }
+
+        /// <summary>
+        /// Set display image based on the posters found from the database.
+        /// </summary>
+        /// <param name="images"></param>
+        private void setImage(TmdbMovieImages images)
+        {
+            if (images.posters.Count() == 0)
+            {
+                imageSearch.Source = genericImage();
+            }
+
+            else
+            {
+                BitmapImage bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri(Global.moviePosterPath + images.posters[0].file_path, UriKind.Absolute);
+                bitmap.EndInit();
+                imageSearch.Source = bitmap;
+            }
+        }
+
+        /// <summary>
+        /// Return the generic image.
+        /// </summary>
+        /// <returns></returns>
+        private BitmapImage genericImage()
+        {
+            using (var memory = new MemoryStream())
+            {
+                MovieCatalog.Properties.Resources._5iRXRbX4T.Save(memory, ImageFormat.Png);
+                memory.Position = 0;
+
+                var bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.StreamSource = memory;
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.EndInit();
+
+                return bitmapImage;
+            }
         }
 
         #region databindings

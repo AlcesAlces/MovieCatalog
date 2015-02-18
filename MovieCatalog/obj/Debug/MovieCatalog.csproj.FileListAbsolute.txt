@@ -29,3 +29,5 @@ E:\C#Projects\MovieCatalog\MovieCatalog\bin\Debug\RestSharp.dll
 E:\C#Projects\MovieCatalog\MovieCatalog\bin\Debug\WatTmdb.dll
 E:\C#Projects\MovieCatalog\MovieCatalog\obj\Debug\Pages\SearchPage.baml
 E:\C#Projects\MovieCatalog\MovieCatalog\obj\Debug\Pages\SearchPage.g.cs
+E:\C#Projects\MovieCatalog\MovieCatalog\obj\Debug\MovieCatalog.Properties.Resources.resources
+E:\C#Projects\MovieCatalog\MovieCatalog\obj\Debug\MovieCatalog.csproj.GenerateResource.Cache
