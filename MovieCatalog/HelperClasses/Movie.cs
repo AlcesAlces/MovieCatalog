@@ -17,15 +17,18 @@ namespace MovieCatalog.HelperClasses
         public double userRating { get; set; }
         public string description { get; set; }
         public List<MovieGenre> genres = new List<MovieGenre>();
+        //Use this name to sort by, it will exclude "the" in a title.
+        public string sortName { get; set; }
 
         public Movie(string toParse)
         {
             setGenreCommaSeperated(toParse);
+            setSortName();
         }
 
         public Movie()
         {
-
+            setSortName();
         }
 
         public string getGenreCommaSeperated()
@@ -57,6 +60,24 @@ namespace MovieCatalog.HelperClasses
                     {
                         name = item
                     });
+            }
+        }
+
+        public void setSortName()
+        {
+            if (name != null)
+            {
+                if (name.Split(' ')[0].ToLower() == "the")
+                {
+                    var tmp = name.Split(' ').ToList();
+                    tmp.RemoveAt(0);
+                    sortName = String.Join(" ", tmp);
+                }
+
+                else
+                {
+                    sortName = name;
+                }
             }
         }
     }

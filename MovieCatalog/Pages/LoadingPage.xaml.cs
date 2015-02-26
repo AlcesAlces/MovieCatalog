@@ -16,20 +16,13 @@ using System.Windows.Shapes;
 namespace MovieCatalog.Pages
 {
     /// <summary>
-    /// Interaction logic for Home.xaml
+    /// Interaction logic for LoadingPage.xaml
     /// </summary>
-    public partial class Home : UserControl
+    public partial class LoadingPage : UserControl
     {
-        public Home()
+        public LoadingPage()
         {
             InitializeComponent();
-            loadContent();
-        }
-
-        private void loadContent()
-        {
-            //frameMain.Navigate(new LoadingPage());
-            frameMain.Navigate(new PageControl());
         }
     }
 }

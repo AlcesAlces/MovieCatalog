@@ -9,6 +9,6 @@
             <RowDefinition/>
             <RowDefinition Height="0*"/>
         </Grid.RowDefinitions>
-        <Frame Content="Frame" Height="447" Margin="10,10,0,0" VerticalAlignment="Top" Source="/Pages/PageControl.xaml" HorizontalAlignment="Left" Width="764"/>
+        <Frame x:Name="frameMain" Content="Frame" Height="447" Margin="10,10,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="764"/>
     </Grid>
 </UserControl>

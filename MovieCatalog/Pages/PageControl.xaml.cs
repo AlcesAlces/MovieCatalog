@@ -3,6 +3,7 @@ using MovieCatalog.HelperClasses;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
@@ -31,7 +32,7 @@ namespace MovieCatalog.Pages
     public partial class PageControl : UserControl
     {
         ObservableCollection<Movie> _MovieCollection = Global._MovieCollection;
-        public BitmapImage _image; 
+        BitmapImage image = new BitmapImage();
 
         public PageControl()
         {
@@ -75,7 +76,7 @@ namespace MovieCatalog.Pages
         }
 
         /// <summary>
-        /// Databinding for the i
+        /// Databinding for the image
         /// </summary>
         public BitmapImage ImageDisplay
         {
@@ -83,7 +84,7 @@ namespace MovieCatalog.Pages
             {
                 var nullTest = lvMovies.SelectedItem;
 
-                if(nullTest != null)
+                if (nullTest != null)
                 {
                     if (((Movie)lvMovies.SelectedItem).imageLocation == "NONE")
                     {

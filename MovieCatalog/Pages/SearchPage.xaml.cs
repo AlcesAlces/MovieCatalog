@@ -47,9 +47,9 @@ namespace MovieCatalog.Pages
 
             string searchString = txtSearch.Text;
             Tmdb api = new Tmdb(apikey, language);
-            TmdbMovieSearch test = api.SearchMovie(searchString, 1);
+            TmdbMovieSearch results = api.SearchMovie(searchString, 1);
 
-            foreach (MovieResult item in test.results)
+            foreach (MovieResult item in results.results)
             {
                 _MovieCollection.Add(new Movie()
                 {
@@ -60,9 +60,9 @@ namespace MovieCatalog.Pages
             }
 
             //Set the currently selected movie to the first element.
-            if(test.results.Count != 0)
+            if(results.results.Count != 0)
             {
-                selectedMovie = api.GetMovieInfo(test.results[0].id);
+                selectedMovie = api.GetMovieInfo(results.results[0].id);
             }
 
             applyImageResults();
@@ -91,7 +91,7 @@ namespace MovieCatalog.Pages
                 {
                     if (FileHandlers.isMovieDuplicate(movie.id))
                     {
-                        MessageBox.Show(movie.title + " is already in the xml file!");
+                        //MessageBox.Show(movie.title + " is already in the xml file!");
                         duplicateAmt++;
                         duplicate = true;
                     }
@@ -164,26 +164,29 @@ namespace MovieCatalog.Pages
         //Assign the appropriate image to the display image based on selection.
         private void applyImageResults()
         {
-            Movie movieId = ((Movie)lvResults.SelectedItem);
-            Tmdb connection = new Tmdb(apikey, language);
-            TmdbMovieImages images;
-
-            //An element in the list is selected, no need to recalcuate
-            if (movieId != null)
+            if (lvResults.Items.Count > 0)
             {
-                selectedMovie = connection.GetMovieInfo(movieId.mid);
-                images = connection.GetMovieImages(movieId.mid);
-                setImage(images);
-            }
-            //An element in the list is not selected, recalculate setting element 0
-            else
-            {
-                movieId = ((Movie)lvResults.Items[0]);
-                selectedMovie = connection.GetMovieInfo(movieId.mid);
-                images = connection.GetMovieImages(movieId.mid);
+                Movie movieId = ((Movie)lvResults.SelectedItem);
+                Tmdb connection = new Tmdb(apikey, language);
+                TmdbMovieImages images;
 
-                setImage(images);
-                
+                //An element in the list is selected, no need to recalcuate
+                if (movieId != null)
+                {
+                    selectedMovie = connection.GetMovieInfo(movieId.mid);
+                    images = connection.GetMovieImages(movieId.mid);
+                    setImage(images);
+                }
+                //An element in the list is not selected, recalculate setting element 0
+                else
+                {
+                    movieId = ((Movie)lvResults.Items[0]);
+                    selectedMovie = connection.GetMovieInfo(movieId.mid);
+                    images = connection.GetMovieImages(movieId.mid);
+
+                    setImage(images);
+
+                }
             }
         }
 

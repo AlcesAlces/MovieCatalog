@@ -135,9 +135,10 @@ namespace MovieCatalog.Helper_Functions
                         year = node.SelectSingleNode("year").InnerText.ToString(),
                         description = node.SelectSingleNode("description").InnerText.ToString()
                     });
+                moviesToReturn[moviesToReturn.Count - 1].setSortName();
             }
 
-            moviesToReturn = moviesToReturn.OrderBy(x => x.name).ToList();
+            moviesToReturn = moviesToReturn.OrderBy(x => x.sortName).ToList();
 
             return moviesToReturn;
         }

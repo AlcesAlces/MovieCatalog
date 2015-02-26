@@ -26,7 +26,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Image x:Name="imgPoster" HorizontalAlignment="Left" Height="218" Margin="271,0,0,0" VerticalAlignment="Top" Width="150" Source="{Binding ImageDisplay}"/>
+        <Image x:Name="imgPoster" HorizontalAlignment="Left" Height="218" Margin="271,0,0,0" VerticalAlignment="Top" Width="150"/>
         <Label x:Name="lblOnlineRating" HorizontalAlignment="Left" Margin="431,172,0,0" VerticalAlignment="Top" Content="{Binding OnlineRatingDisplay}"/>
         <Label x:Name="lblUserRating" Content="..." HorizontalAlignment="Left" Margin="683,172,0,0" VerticalAlignment="Top" Height="16" Width="8"/>
         <ScrollViewer VerticalAlignment="Top" Height="148" Width="278" HorizontalAlignment="Left" Margin="431,10,0,0">
