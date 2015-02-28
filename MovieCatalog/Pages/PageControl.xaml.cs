@@ -38,7 +38,6 @@ namespace MovieCatalog.Pages
         {
             initDefaultValues();
             InitializeComponent();
-            imgPoster.Source = ImageDisplay;
             lblOnlineRating.Content = OnlineRatingDisplay;
             txtDescription.Text = DescriptionDisplay;
             tbGenres.Text = GenresDisplay;
@@ -78,50 +77,42 @@ namespace MovieCatalog.Pages
         /// <summary>
         /// Databinding for the image
         /// </summary>
-        public BitmapImage ImageDisplay
+        public async Task<BitmapImage> ImageDisplay()
         {
-            get
+            var nullTest = lvMovies.SelectedItem;
+
+            if (nullTest != null)
             {
-                var nullTest = lvMovies.SelectedItem;
-
-                if (nullTest != null)
+                if (((Movie)lvMovies.SelectedItem).imageLocation == "NONE")
                 {
-                    if (((Movie)lvMovies.SelectedItem).imageLocation == "NONE")
-                    {
-                        return genericImage();
-                    }
-
-                    else
-                    {
-                        BitmapImage bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.UriSource = new Uri(Global.moviePosterPath + ((Movie)lvMovies.SelectedItem).imageLocation, UriKind.Absolute);
-                        bitmap.EndInit();
-                        return bitmap;
-                    }
-                }
-
-                else if (_MovieCollection.Count != 0)
-                {
-                    if (_MovieCollection[0].imageLocation == "NONE")
-                    {
-                        return genericImage();
-                    }
-                    else
-                    {
-                        BitmapImage bitmap = new BitmapImage();
-                        bitmap.BeginInit();
-                        bitmap.UriSource = new Uri(Global.moviePosterPath + _MovieCollection[0].imageLocation, UriKind.Absolute);
-                        bitmap.EndInit();
-                        return bitmap;
-                    }
+                    return genericImage();
                 }
 
                 else
                 {
-                    return null;
+
+                    return await ImageHandler.bitmapFromUrl(Global.moviePosterPath + ((Movie)lvMovies.SelectedItem).imageLocation);
                 }
             }
+
+            else if (_MovieCollection.Count != 0)
+            {
+                if (_MovieCollection[0].imageLocation == "NONE")
+                {
+                    return genericImage();
+                }
+                else
+                {
+                    
+                    return await ImageHandler.bitmapFromUrl(Global.moviePosterPath + _MovieCollection[0].imageLocation);
+                }
+            }
+
+            else
+            {
+                return null;
+            }
+            
         }
 
         /// <summary>
@@ -220,9 +211,9 @@ namespace MovieCatalog.Pages
             }
         }
 
-        private void lvMovies_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private async void lvMovies_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            imgPoster.Source = ImageDisplay;
+            imgPoster.Source = await ImageDisplay();
             lblOnlineRating.Content = OnlineRatingDisplay;
             txtDescription.Text = DescriptionDisplay;
             tbGenres.Text = GenresDisplay;
@@ -324,6 +315,11 @@ namespace MovieCatalog.Pages
                     }
                 }
             }
+        }
+
+        private async void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            imgPoster.Source = await ImageDisplay();
         }
     }
 }

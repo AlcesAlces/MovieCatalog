@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:test="clr-namespace:MovieCatalog.HelperClasses"
              mc:Ignorable="d" Height="443" Width="739.1"
-             DataContext="{Binding RelativeSource={RelativeSource Self}}">
+             DataContext="{Binding RelativeSource={RelativeSource Self}}" Loaded="UserControl_Loaded">
 
     <Grid Style="{StaticResource ContentRoot}" Margin="10" Height="auto" Width="auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
