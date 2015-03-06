@@ -93,6 +93,9 @@ namespace MovieCatalog.Helper_Functions
             XmlNode descSub = xml.CreateNode(XmlNodeType.Element, "description", null);
             descSub.InnerText = movie.description;
             subList.Add(descSub);
+            XmlNode posterSub = xml.CreateNode(XmlNodeType.Element, "posternum", null);
+            posterSub.InnerText = "0";
+            subList.Add(posterSub);
             XmlNode userratingSub = xml.CreateNode(XmlNodeType.Element, "userrating", null);
             try
             {
