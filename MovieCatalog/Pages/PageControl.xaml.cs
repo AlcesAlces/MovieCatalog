@@ -74,68 +74,6 @@ namespace MovieCatalog.Pages
             get { return _MovieCollection; }
         }
 
-        /// <summary>
-        /// Databinding for the image
-        /// </summary>
-        public async Task<BitmapImage> ImageDisplay()
-        {
-            var nullTest = lvMovies.SelectedItem;
-
-            if (nullTest != null)
-            {
-                if (((Movie)lvMovies.SelectedItem).imageLocation == "NONE")
-                {
-                    return genericImage();
-                }
-
-                else
-                {
-
-                    return await ImageHandler.bitmapFromUrl(Global.moviePosterPath + ((Movie)lvMovies.SelectedItem).imageLocation);
-                }
-            }
-
-            else if (_MovieCollection.Count != 0)
-            {
-                if (_MovieCollection[0].imageLocation == "NONE")
-                {
-                    return genericImage();
-                }
-                else
-                {
-                    
-                    return await ImageHandler.bitmapFromUrl(Global.moviePosterPath + _MovieCollection[0].imageLocation);
-                }
-            }
-
-            else
-            {
-                return null;
-            }
-            
-        }
-
-        /// <summary>
-        /// Returns a generic image to put in the image box.
-        /// </summary>
-        /// <returns></returns>
-        private BitmapImage genericImage()
-        {
-            using (var memory = new MemoryStream())
-            {
-                MovieCatalog.Properties.Resources._5iRXRbX4T.Save(memory, ImageFormat.Png);
-                memory.Position = 0;
-
-                var bitmapImage = new BitmapImage();
-                bitmapImage.BeginInit();
-                bitmapImage.StreamSource = memory;
-                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                bitmapImage.EndInit();
-
-                return bitmapImage;
-            }
-        }
-
         private string OnlineRatingDisplay
         {
             get
@@ -213,10 +151,16 @@ namespace MovieCatalog.Pages
 
         private async void lvMovies_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            imgPoster.Source = await ImageDisplay();
+            await setImageContent();
             lblOnlineRating.Content = OnlineRatingDisplay;
             txtDescription.Text = DescriptionDisplay;
             tbGenres.Text = GenresDisplay;
+        }
+
+        private async Task setImageContent()
+        {
+            imgPoster.Source = ImageHandler.genericImage();
+            imgPoster.Source = await ImageHandler.ImageDisplay(_MovieCollection, lvMovies.SelectedItem as Movie);
         }
 
         private void btnFilter_Click(object sender, RoutedEventArgs e)
@@ -319,7 +263,7 @@ namespace MovieCatalog.Pages
 
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            imgPoster.Source = await ImageDisplay();
+            await setImageContent();
         }
     }
 }

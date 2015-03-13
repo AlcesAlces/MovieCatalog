@@ -46,10 +46,8 @@ namespace MovieCatalog.Pages
             _MovieCollection.Clear();
 
             string searchString = txtSearch.Text;
-            Tmdb api = new Tmdb(apikey, language);
-            TmdbMovieSearch results = api.SearchMovie(searchString, 1);
-
-            foreach (MovieResult item in results.results)
+            var movies = TMDBHelper.movieResultsBySearch(searchString);
+            foreach (MovieResult item in movies)
             {
                 _MovieCollection.Add(new Movie()
                 {
@@ -60,9 +58,9 @@ namespace MovieCatalog.Pages
             }
 
             //Set the currently selected movie to the first element.
-            if(results.results.Count != 0)
+            if(movies.Count != 0)
             {
-                selectedMovie = api.GetMovieInfo(results.results[0].id);
+                selectedMovie = TMDBHelper.getTmdbMovieById(movies[0].id);
             }
 
             applyImageResults();
@@ -75,8 +73,6 @@ namespace MovieCatalog.Pages
 
         private void btnAdd_Click(object sender, RoutedEventArgs e)
         {
-            Tmdb query = new Tmdb(apikey, language);
-
             bool success = true;
             int successAmt = 0;
             bool duplicate = false;
@@ -84,8 +80,8 @@ namespace MovieCatalog.Pages
 
             foreach(Movie item in lvResults.SelectedItems)
             {
-                TmdbMovie movie = query.GetMovieInfo(item.mid);
-                TmdbMovieImages image = query.GetMovieImages(movie.id);
+                TmdbMovie movie = TMDBHelper.getTmdbMovieById(item.mid);
+                TmdbMovieImages image = TMDBHelper.getImagesById(item.mid);
 
                 try
                 {

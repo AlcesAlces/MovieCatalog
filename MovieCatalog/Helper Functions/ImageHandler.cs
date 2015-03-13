@@ -1,5 +1,8 @@
-﻿using System;
+﻿using MovieCatalog.HelperClasses;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -60,5 +63,63 @@ namespace MovieCatalog.Helper_Functions
             return getImageByBytes(await getContentAsync(url));
         }
 
+        /// <summary>
+        /// Databinding for the image
+        /// </summary>
+        public static async Task<BitmapImage> ImageDisplay(ObservableCollection<Movie> _MovieCollection, Movie selectedItem)
+        {
+            if (selectedItem != null)
+            {
+                if (selectedItem.imageLocation == "NONE")
+                {
+                    return genericImage();
+                }
+
+                else
+                {
+
+                    return await ImageHandler.bitmapFromUrl(Global.moviePosterPath + selectedItem.imageLocation);
+                }
+            }
+
+            else if (_MovieCollection.Count != 0)
+            {
+                if (_MovieCollection[0].imageLocation == "NONE")
+                {
+                    return genericImage();
+                }
+                else
+                {
+
+                    return await ImageHandler.bitmapFromUrl(Global.moviePosterPath + _MovieCollection[0].imageLocation);
+                }
+            }
+
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Returns a generic image to put in the image box.
+        /// </summary>
+        /// <returns></returns>
+        public static BitmapImage genericImage()
+        {
+            using (var memory = new MemoryStream())
+            {
+                MovieCatalog.Properties.Resources._5iRXRbX4T.Save(memory, ImageFormat.Png);
+                memory.Position = 0;
+
+                var bitmapImage = new BitmapImage();
+                bitmapImage.BeginInit();
+                bitmapImage.StreamSource = memory;
+                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                bitmapImage.EndInit();
+
+                return bitmapImage;
+            }
+        }
     }
 }

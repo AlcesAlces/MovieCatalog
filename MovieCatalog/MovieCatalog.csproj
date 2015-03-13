@@ -69,6 +69,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Helper Functions\ImageHandler.cs" />
+    <Compile Include="Helper Functions\TMDBHelper.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -143,6 +144,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\5iRXRbX4T.jpg" />
+    <None Include="Resources\loading.gif">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="XMLSettings\MovieDatabase.xml" />
     <Content Include="XMLSettings\UserSettings.xml" />
   </ItemGroup>
