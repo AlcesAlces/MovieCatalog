@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:test="clr-namespace:MovieCatalog.HelperClasses"
              mc:Ignorable="d" Height="443" Width="739.1"
              DataContext="{Binding RelativeSource={RelativeSource Self}}" Loaded="UserControl_Loaded">
 

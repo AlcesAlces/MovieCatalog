@@ -38,6 +38,9 @@
     <Reference Include="FirstFloor.ModernUI">
       <HintPath>..\packages\ModernUI.WPF.1.0.6\lib\net45\FirstFloor.ModernUI.dll</HintPath>
     </Reference>
+    <Reference Include="MovieCatalogLibrary">
+      <HintPath>..\..\..\MovieCatalogLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="RestSharp">
       <HintPath>..\..\..\Torrents\The.Walking.Dead.S05E09.HDTV.x264-KILLERS[ettv]\RestSharp.dll</HintPath>
     </Reference>
@@ -68,8 +71,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Helper Functions\ImageHandler.cs" />
-    <Compile Include="Helper Functions\TMDBHelper.cs" />
+    <Compile Include="Helper Functions\ImageInterpreters.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -84,9 +86,7 @@
       <SubType>Designer</SubType>
     </Page>
     <Compile Include="Global.cs" />
-    <Compile Include="Helper Functions\FileHandlers.cs" />
     <Compile Include="Helper Functions\Filtering.cs" />
-    <Compile Include="HelperClasses\Movie.cs" />
     <Compile Include="Pages\BasicPage.xaml.cs">
       <DependentUpon>BasicPage.xaml</DependentUpon>
     </Compile>
@@ -155,6 +155,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="HelperClasses\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

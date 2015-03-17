@@ -1,5 +1,5 @@
 ﻿using MovieCatalog.Helper_Functions;
-using MovieCatalog.HelperClasses;
+using MovieCatalogLibrary;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -33,7 +33,8 @@ namespace MovieCatalog.Pages
     {
         ObservableCollection<Movie> _MovieCollection = Global._MovieCollection;
         BitmapImage image = new BitmapImage();
-
+        public FileHandler fileHandler = new FileHandler(MovieCatalogLibrary.FileHandler.platformType.Windows);
+        
         public PageControl()
         {
             initDefaultValues();
@@ -50,7 +51,7 @@ namespace MovieCatalog.Pages
         private void initDefaultValues()
         {
             _MovieCollection.Clear();
-            List<Movie> listOfMovies = FileHandlers.allMoviesInXml();
+            List<Movie> listOfMovies = fileHandler.allMoviesInXml();
 
             if(listOfMovies.Count == 0)
             { 
@@ -159,8 +160,8 @@ namespace MovieCatalog.Pages
 
         private async Task setImageContent()
         {
-            imgPoster.Source = ImageHandler.genericImage();
-            imgPoster.Source = await ImageHandler.ImageDisplay(_MovieCollection, lvMovies.SelectedItem as Movie);
+            imgPoster.Source = ImageInterpreters.genericImage();
+            imgPoster.Source = await ImageInterpreters.ImageDisplay(_MovieCollection, lvMovies.SelectedItem as Movie);
         }
 
         private void btnFilter_Click(object sender, RoutedEventArgs e)
@@ -202,7 +203,7 @@ namespace MovieCatalog.Pages
 
         private void btnReset_Click(object sender, RoutedEventArgs e)
         {
-            List<Movie> movies = FileHandlers.allMoviesInXml();
+            List<Movie> movies = fileHandler.allMoviesInXml();
 
             _MovieCollection.Clear();
 
@@ -243,7 +244,7 @@ namespace MovieCatalog.Pages
                         movies.Add(item);
                     }
 
-                    FileHandlers.removeMovies(movies);
+                    fileHandler.removeMovies(movies);
                 }
                 catch (Exception ex)
                 {
@@ -251,7 +252,7 @@ namespace MovieCatalog.Pages
                 }
                 finally
                 {
-                    List<Movie> temp = FileHandlers.allMoviesInXml();
+                    List<Movie> temp = fileHandler.allMoviesInXml();
                     _MovieCollection.Clear();
                     foreach (Movie item in temp)
                     {

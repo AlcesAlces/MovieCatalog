@@ -1,4 +1,4 @@
-﻿using MovieCatalog.HelperClasses;
+﻿using MovieCatalogLibrary;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

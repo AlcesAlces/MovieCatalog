@@ -1,40 +1,20 @@
-﻿using MovieCatalog.HelperClasses;
+﻿using MovieCatalogLibrary;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 
 namespace MovieCatalog.Helper_Functions
 {
-    static class ImageHandler
+    static class ImageInterpreters
     {
-        /// <summary>
-        /// Async method for getting the IMG bytes file.
-        /// </summary>
-        /// <param name="url"></param>
-        /// <returns></returns>
-        private static async Task<byte[]> getContentAsync(string url)
-        {
-            var content = new MemoryStream();
 
-            HttpWebRequest webRequest = (HttpWebRequest)WebRequest.Create(url);
-
-            using (WebResponse response = await webRequest.GetResponseAsync())
-            {
-                using (Stream responseStream = response.GetResponseStream())
-                {
-                    await responseStream.CopyToAsync(content);
-                }
-            }
-
-            return content.ToArray();
-        }
+        private static ImageHandler imageHandler = new ImageHandler();
 
         private static BitmapImage getImageByBytes(byte[] toReturn)
         {
@@ -50,7 +30,7 @@ namespace MovieCatalog.Helper_Functions
                 imageToReturn.EndInit();
             }
 
-            catch(Exception ex)
+            catch (Exception ex)
             {
 
             }
@@ -60,7 +40,7 @@ namespace MovieCatalog.Helper_Functions
 
         public static async Task<BitmapImage> bitmapFromUrl(string url)
         {
-            return getImageByBytes(await getContentAsync(url));
+            return getImageByBytes(await imageHandler.getContentAsync(url));
         }
 
         /// <summary>
@@ -78,7 +58,7 @@ namespace MovieCatalog.Helper_Functions
                 else
                 {
 
-                    return await ImageHandler.bitmapFromUrl(Global.moviePosterPath + selectedItem.imageLocation);
+                    return await bitmapFromUrl(Global.moviePosterPath + selectedItem.imageLocation);
                 }
             }
 
@@ -91,7 +71,7 @@ namespace MovieCatalog.Helper_Functions
                 else
                 {
 
-                    return await ImageHandler.bitmapFromUrl(Global.moviePosterPath + _MovieCollection[0].imageLocation);
+                    return await bitmapFromUrl(Global.moviePosterPath + _MovieCollection[0].imageLocation);
                 }
             }
 

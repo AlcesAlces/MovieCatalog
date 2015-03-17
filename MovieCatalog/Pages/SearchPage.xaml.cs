@@ -1,5 +1,5 @@
 ﻿using MovieCatalog.Helper_Functions;
-using MovieCatalog.HelperClasses;
+using MovieCatalogLibrary;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -30,6 +30,8 @@ namespace MovieCatalog.Pages
         private readonly string language = "en";
         ObservableCollection<Movie> _MovieCollection = new ObservableCollection<Movie>();
         TmdbMovie selectedMovie = null;
+        TMDBHelper tmdbHelper = new TMDBHelper();
+        FileHandler fileHandler = new FileHandler(FileHandler.platformType.Windows);
 
         public SearchPage()
         {
@@ -46,7 +48,7 @@ namespace MovieCatalog.Pages
             _MovieCollection.Clear();
 
             string searchString = txtSearch.Text;
-            var movies = TMDBHelper.movieResultsBySearch(searchString);
+            var movies = tmdbHelper.movieResultsBySearch(searchString);
             foreach (MovieResult item in movies)
             {
                 _MovieCollection.Add(new Movie()
@@ -60,7 +62,7 @@ namespace MovieCatalog.Pages
             //Set the currently selected movie to the first element.
             if(movies.Count != 0)
             {
-                selectedMovie = TMDBHelper.getTmdbMovieById(movies[0].id);
+                selectedMovie = tmdbHelper.getTmdbMovieById(movies[0].id);
             }
 
             applyImageResults();
@@ -80,12 +82,12 @@ namespace MovieCatalog.Pages
 
             foreach(Movie item in lvResults.SelectedItems)
             {
-                TmdbMovie movie = TMDBHelper.getTmdbMovieById(item.mid);
-                TmdbMovieImages image = TMDBHelper.getImagesById(item.mid);
+                TmdbMovie movie = tmdbHelper.getTmdbMovieById(item.mid);
+                TmdbMovieImages image = tmdbHelper.getImagesById(item.mid);
 
                 try
                 {
-                    if (FileHandlers.isMovieDuplicate(movie.id))
+                    if (fileHandler.isMovieDuplicate(movie.id))
                     {
                         //MessageBox.Show(movie.title + " is already in the xml file!");
                         duplicateAmt++;
@@ -106,7 +108,7 @@ namespace MovieCatalog.Pages
                             posterLocation = "NONE";
                         }
 
-                        FileHandlers.addMovie(new Movie
+                        fileHandler.addMovie(new Movie
                         {
                             description = movie.overview,
                             imageLocation = posterLocation,
@@ -127,7 +129,7 @@ namespace MovieCatalog.Pages
             }
 
             //Refresh the movie list
-            List<Movie> movies = FileHandlers.allMoviesInXml();
+            List<Movie> movies = fileHandler.allMoviesInXml();
             Global._MovieCollection.Clear();
             foreach(Movie movie in movies)
             {
