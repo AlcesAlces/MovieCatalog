@@ -1,10 +1,12 @@
-﻿using MovieCatalogLibrary;
+﻿using FirstFloor.ModernUI.Presentation;
+using MovieCatalogLibrary;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace MovieCatalog
 {
@@ -12,5 +14,8 @@ namespace MovieCatalog
     {
         public static ObservableCollection<Movie> _MovieCollection = new ObservableCollection<Movie>();
         public static string moviePosterPath = "https://image.tmdb.org/t/p/w396";
+        public static string userName = null;
+        public static string uid = null;
+        public static Link userLink = null;
     }
 }

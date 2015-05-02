@@ -3,20 +3,23 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d" Height="443" Width="739.1"
+             mc:Ignorable="d" Height="497" Width="739.1"
              DataContext="{Binding RelativeSource={RelativeSource Self}}" Loaded="UserControl_Loaded">
 
     <Grid Style="{StaticResource ContentRoot}" Margin="10" Height="auto" Width="auto" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <Grid.RowDefinitions>
-            <RowDefinition Height="275*"/>
-            <RowDefinition Height="148*"/>
+            <RowDefinition Height="22*"/>
+            <RowDefinition Height="288*"/>
+            <RowDefinition Height="167*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition Width="425*"/>
+            <ColumnDefinition Width="294*"/>
         </Grid.ColumnDefinitions>
-        <Button x:Name="btnFilter" Content="Apply Filter" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="301,72,0,0" Height="26" Click="btnFilter_Click" Grid.Row="1"/>
-        <TextBox HorizontalAlignment="Left" Height="23" Margin="10,65,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Name="tbName" Grid.Row="1"/>
-        <ListView x:Name="lvMovies" HorizontalAlignment="Left" Height="218" VerticalAlignment="Top" Width="257" ItemsSource="{Binding MovieCollection}" SelectionChanged="lvMovies_SelectionChanged" KeyDown="lvMovies_KeyDown">
+        <Button x:Name="btnFilter" Content="Apply Filter" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="301,72,0,0" Height="26" Click="btnFilter_Click" Grid.Row="2"/>
+        <TextBox HorizontalAlignment="Left" Height="23" Margin="10,65,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Name="tbName" Grid.Row="2"/>
+
+        <ListView x:Name="lvMovies" HorizontalAlignment="Left" Height="218" VerticalAlignment="Top" Width="257" ItemsSource="{Binding MovieCollection}" SelectionChanged="lvMovies_SelectionChanged" KeyDown="lvMovies_KeyDown" Margin="0,29,0,0" Grid.Row="1">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="150" Header="Name" DisplayMemberBinding="{Binding name}"/>
@@ -25,18 +28,20 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Image x:Name="imgPoster" HorizontalAlignment="Left" Height="218" Margin="271,0,0,0" VerticalAlignment="Top" Width="150"/>
-        <Label x:Name="lblOnlineRating" HorizontalAlignment="Left" Margin="431,172,0,0" VerticalAlignment="Top" Content="{Binding OnlineRatingDisplay}"/>
-        <Label x:Name="lblUserRating" Content="..." HorizontalAlignment="Left" Margin="683,172,0,0" VerticalAlignment="Top" Height="16" Width="8"/>
-        <ScrollViewer VerticalAlignment="Top" Height="148" Width="278" HorizontalAlignment="Left" Margin="431,10,0,0">
+        <TextBlock x:Name="tbCatalog" Text="YOUR CATALOG" Style="{StaticResource Heading2}" Margin="10,0,0,0" />
+        <TextBlock Text="DESCRIPTION" Style="{StaticResource Heading2}" Margin="28,0,20,0" Grid.RowSpan="1" Grid.Column="1" />
+        <Image x:Name="imgPoster" HorizontalAlignment="Left" Height="218" Margin="271,29,0,0" VerticalAlignment="Top" Width="150" Grid.Row="1"/>
+        <Label x:Name="lblOnlineRating" HorizontalAlignment="Left" Margin="6,227,0,0" VerticalAlignment="Top" Content="{Binding OnlineRatingDisplay}" Grid.Row="1" Grid.Column="1"/>
+        <Label x:Name="lblUserRating" Content="..." HorizontalAlignment="Left" Margin="256,227,0,0" VerticalAlignment="Top" Height="16" Width="8" Grid.Row="1" Grid.Column="1"/>
+        <ScrollViewer VerticalAlignment="Top" Height="148" Width="278" HorizontalAlignment="Left" Margin="6,29,0,0" Grid.Row="1" Grid.Column="1">
             <TextBlock x:Name="txtDescription" TextWrapping="Wrap" Width="229" Text="{Binding Path=DescriptionDisplay}"/>
         </ScrollViewer>
-        <TextBox HorizontalAlignment="Left" IsReadOnly="True" Name="tbGenres" Height="23" Margin="431,195,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="278" HorizontalScrollBarVisibility="Visible" Text="{Binding OnlineRatingDisplay}"/>
-        <Label Content="Filtering Options" HorizontalAlignment="Left" Margin="10,24,0,0" VerticalAlignment="Top" Height="16" Width="88" Grid.Row="1"/>
-        <Label Content="Movie Name" HorizontalAlignment="Left" Margin="14,45,0,0" VerticalAlignment="Top" Height="16" Width="68" Grid.Row="1"/>
-        <Button x:Name="btnReset" Content="Reset" HorizontalAlignment="Left" Margin="301,103,0,0" VerticalAlignment="Top" Width="75" Click="btnReset_Click" Height="26" Grid.Row="1"/>
-        <Button Content="Button" HorizontalAlignment="Left" Height="1" Margin="281,270,0,0" VerticalAlignment="Top" Width="0"/>
-        <Button x:Name="btnRemove" Content="Remove Selections" HorizontalAlignment="Left" Margin="10,247,0,0" VerticalAlignment="Top" Width="147" Click="btnRemove_Click" Height="26"/>
-        <Border BorderBrush="Silver" BorderThickness="1" HorizontalAlignment="Left" Height="124" Margin="0,24,0,0" Grid.Row="1" VerticalAlignment="Top" Width="433"/>
+        <TextBox HorizontalAlignment="Left" IsReadOnly="True" Name="tbGenres" Height="23" Margin="6,248,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="278" HorizontalScrollBarVisibility="Visible" Text="{Binding OnlineRatingDisplay}" Grid.Row="1" Grid.Column="1"/>
+        <Label Content="Filtering Options" HorizontalAlignment="Left" Margin="10,24,0,0" VerticalAlignment="Top" Height="16" Width="88" Grid.Row="2"/>
+        <Label Content="Movie Name" HorizontalAlignment="Left" Margin="14,45,0,0" VerticalAlignment="Top" Height="16" Width="68" Grid.Row="2"/>
+        <Button x:Name="btnReset" Content="Reset" HorizontalAlignment="Left" Margin="301,103,0,0" VerticalAlignment="Top" Width="75" Click="btnReset_Click" Height="26" Grid.Row="2"/>
+        <Button Content="Button" HorizontalAlignment="Left" Height="1" Margin="281,248,0,0" VerticalAlignment="Top" Width="0" Grid.Row="1"/>
+        <Button x:Name="btnRemove" Content="Remove Selections" HorizontalAlignment="Left" Margin="10,252,0,0" VerticalAlignment="Top" Width="147" Click="btnRemove_Click" Height="26" Grid.Row="1"/>
+        <Border BorderBrush="Silver" BorderThickness="1" HorizontalAlignment="Left" Height="124" Margin="0,24,0,0" Grid.Row="2" VerticalAlignment="Top" Width="433" Grid.ColumnSpan="2"/>
     </Grid>
 </UserControl>

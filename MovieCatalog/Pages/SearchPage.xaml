@@ -7,9 +7,15 @@
              d:DesignHeight="476.657"
              DataContext="{Binding RelativeSource={RelativeSource Self}}" Width="678.744">
     <Grid Margin="0,0,10,0">
-        <TextBox x:Name="txtSearch" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" KeyDown="txtSearch_KeyDown"/>
-        <DataGrid HorizontalAlignment="Left" VerticalAlignment="Top"/>
-        <ListView x:Name="lvResults" HorizontalAlignment="Left" Height="194" Margin="10,69,0,0" VerticalAlignment="Top" Width="331" ItemsSource="{Binding MovieCollection}" SelectionChanged="lvResults_SelectionChanged">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="131*"/>
+            <RowDefinition Height="346*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="SEARCH TITLE" Style="{StaticResource Heading2}" Margin="10,10,456,87" />
+        <StackPanel Orientation="Horizontal" Margin="0,44,456,6">
+            <TextBox x:Name="txtSearch" Height="auto" Margin="10,34,0,0" TextWrapping="Wrap" VerticalAlignment="Top" HorizontalAlignment="Left" Width="196" KeyDown="txtSearch_KeyDown" ScrollViewer.VerticalScrollBarVisibility="Auto"/>
+        </StackPanel>
+        <ListView x:Name="lvResults" HorizontalAlignment="Left" Height="241" Margin="10,56,0,0" VerticalAlignment="Top" Width="331" ItemsSource="{Binding MovieCollection}" SelectionChanged="lvResults_SelectionChanged" Grid.Row="1">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -31,12 +37,12 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button x:Name="btnSearch" Content="search" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="10,38,0,0" Click="btnSearch_Click"/>
-        <Button Content="Add Selected" Name="btnAdd" HorizontalAlignment="Left" Margin="10,268,0,0" VerticalAlignment="Top" Width="120" Click="btnAdd_Click"/>
-        <Image x:Name="imageSearch" HorizontalAlignment="Left" Height="253" Margin="405,39,0,0" VerticalAlignment="Top" Width="207"/>
-        <ScrollViewer VerticalAlignment="Top" Height="148" Width="278" HorizontalAlignment="Left" Margin="381,297,0,0">
+        <Button x:Name="btnSearch" Content="search" VerticalAlignment="Top" HorizontalAlignment="Left" Width="75" Margin="10,9,0,0" Click="btnSearch_Click" Height="26" Grid.Row="1"/>
+        <Button Content="Add Selected" Name="btnAdd" HorizontalAlignment="Left" Margin="10,302,0,0" VerticalAlignment="Top" Width="120" Click="btnAdd_Click" Height="26" Grid.Row="1"/>
+        <Image x:Name="imageSearch" HorizontalAlignment="Left" Height="253" Margin="405,39,0,0" VerticalAlignment="Top" Width="207" Grid.RowSpan="2"/>
+        <ScrollViewer VerticalAlignment="Top" Height="148" Width="278" HorizontalAlignment="Left" Margin="381,166,0,0" Grid.Row="1">
             <TextBlock x:Name="txtDescription" TextWrapping="Wrap" Width="229" Text="{Binding Path=Description}"/>
         </ScrollViewer>
-        <Label x:Name="lblTitle" Content="{Binding TitleDisplay}" HorizontalAlignment="Left" Margin="405,18,0,0" VerticalAlignment="Top"/>
+        <Label x:Name="lblTitle" Content="{Binding TitleDisplay}" HorizontalAlignment="Left" Margin="405,10,0,0" VerticalAlignment="Top" Height="24" Width="219"/>
     </Grid>
 </UserControl>

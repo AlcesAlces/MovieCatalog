@@ -42,6 +42,7 @@ namespace MovieCatalog.Pages
             lblOnlineRating.Content = OnlineRatingDisplay;
             txtDescription.Text = DescriptionDisplay;
             tbGenres.Text = GenresDisplay;
+            tbCatalog.Text = "YOUR CATALOG (" + _MovieCollection.Count + ")";
         }
 
         /// <summary>
@@ -228,7 +229,7 @@ namespace MovieCatalog.Pages
             }
         }
 
-        private void removeMovies()
+        private async void removeMovies()
         {
             if (MessageBox.Show("Are you sure you want to delete these " +
                                 lvMovies.SelectedItems.Count + " movies?", "Confirm", MessageBoxButton.OKCancel)
@@ -244,7 +245,16 @@ namespace MovieCatalog.Pages
                         movies.Add(item);
                     }
 
-                    fileHandler.removeMovies(movies);
+                    if (Global.uid == null)
+                    {
+                        fileHandler.removeMovies(movies);
+                    }
+
+                    else
+                    {
+                        await MovieCatalogLibrary.DatabaseHandling.MongoXmlLinker.RemoveMovies(movies,Global.uid);
+                    }
+
                 }
                 catch (Exception ex)
                 {

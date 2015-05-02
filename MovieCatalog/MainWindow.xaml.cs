@@ -15,6 +15,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MovieCatalogLibrary.DatabaseHandling;
+using FirstFloor.ModernUI.Presentation;
 
 namespace MovieCatalog
 {
@@ -28,6 +30,7 @@ namespace MovieCatalog
             FileHandler fileHandler = new FileHandler(FileHandler.platformType.Windows);
             fileHandler.verifyUserFile();
             InitializeComponent();
+            Global.userLink = this.TitleLinks.ElementAt(1);
         }
     }
 }

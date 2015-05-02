@@ -63,17 +63,28 @@ namespace MovieCatalog.Pages
             if(movies.Count != 0)
             {
                 selectedMovie = tmdbHelper.getTmdbMovieById(movies[0].id);
+                txtDescription.Text = Description;
+                lblTitle.Content = TitleDisplay;
             }
 
             applyImageResults();
+
+            //Scroll to the top of the list
+            if (lvResults.Items.Count > 0)
+            {
+                lvResults.ScrollIntoView(lvResults.Items[0]);
+            }
         }
 
+        /// <summary>
+        /// binding interface for the movie list box
+        /// </summary>
         public ObservableCollection<Movie> MovieCollection
         {
             get { return _MovieCollection; }
         }
 
-        private void btnAdd_Click(object sender, RoutedEventArgs e)
+        private async void btnAdd_Click(object sender, RoutedEventArgs e)
         {
             bool success = true;
             int successAmt = 0;
@@ -84,6 +95,7 @@ namespace MovieCatalog.Pages
             {
                 TmdbMovie movie = tmdbHelper.getTmdbMovieById(item.mid);
                 TmdbMovieImages image = tmdbHelper.getImagesById(item.mid);
+                List<Movie> toAdd = new List<Movie>();
 
                 try
                 {
@@ -108,7 +120,7 @@ namespace MovieCatalog.Pages
                             posterLocation = "NONE";
                         }
 
-                        fileHandler.addMovie(new Movie
+                        toAdd.Add(new Movie
                         {
                             description = movie.overview,
                             imageLocation = posterLocation,
@@ -119,12 +131,34 @@ namespace MovieCatalog.Pages
                             year = movie.release_date,
                             genres = movie.genres
                         });
+
+                        //fileHandler.addMovie(new Movie
+                        //{
+                        //    description = movie.overview,
+                        //    imageLocation = posterLocation,
+                        //    mid = movie.id,
+                        //    name = movie.title,
+                        //    onlineRating = movie.vote_average,
+                        //    userRating = 0.0,
+                        //    year = movie.release_date,
+                        //    genres = movie.genres
+                        //});
                         successAmt++;
                     }
                 }
                 catch(Exception ex)
                 {
                     success = false;
+                }
+
+                if(Global.uid == null)
+                {
+                    toAdd.ForEach(x => fileHandler.addMovie(x));
+                }
+
+                else
+                {
+                    await MovieCatalogLibrary.DatabaseHandling.MongoXmlLinker.AddMovies(toAdd, Global.uid);
                 }
             }
 
