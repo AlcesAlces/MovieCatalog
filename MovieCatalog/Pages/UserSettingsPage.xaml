@@ -5,12 +5,32 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:mui="http://firstfloorsoftware.com/ModernUI"
              mc:Ignorable="d" 
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="300" Width="458">
     <Grid Style="{StaticResource ContentRoot}">
         <ScrollViewer>
             <StackPanel MinWidth="200">
                 <TextBlock Text="USER SETTINGS PAGE" Style="{StaticResource Heading2}" />
-                <TextBlock Text="You logged in! Good job." />
+
+                <TextBlock Text="Sync Method" />
+
+                
+                <Border HorizontalAlignment="Left" BorderBrush="Black" BorderThickness="1" Height="33" Width="263" RenderTransformOrigin="0.5,0.5">
+                    <Border.RenderTransform>
+                        <TransformGroup>
+                            <ScaleTransform ScaleY="1"/>
+                            <SkewTransform/>
+                            <RotateTransform/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </Border.RenderTransform>
+                    <StackPanel Orientation="Horizontal">
+                        <RadioButton Name="rbManual" GroupName="syncMethod" Content="Manual" Width="82" Checked="rbManual_Checked"/>
+                        <RadioButton Name="rbAutomatic" GroupName="syncMethod" Content="Automatic" Width="78" Checked="rbAutomatic_Checked"/>
+                    </StackPanel>
+                </Border>
+                
+                <Button HorizontalAlignment="Left" Content="Sync" Width="262" Click="Button_Click"/>
+                
             </StackPanel>
         </ScrollViewer>
     </Grid>

@@ -49,7 +49,7 @@
     </Reference>
     <Reference Include="MovieCatalogLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\MovieCatalogLibrary.dll</HintPath>
+      <HintPath>..\..\MovieCatalogLibrary\MovieCatalogLibrary\bin\Debug\MovieCatalogLibrary.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp">
       <HintPath>..\..\..\Torrents\The.Walking.Dead.S05E09.HDTV.x264-KILLERS[ettv]\RestSharp.dll</HintPath>

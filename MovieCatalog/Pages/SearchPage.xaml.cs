@@ -153,12 +153,15 @@ namespace MovieCatalog.Pages
 
                 if(Global.uid == null)
                 {
-                    toAdd.ForEach(x => fileHandler.addMovie(x));
+                    fileHandler.addMovies(toAdd);
                 }
 
                 else
                 {
-                    await MovieCatalogLibrary.DatabaseHandling.MongoXmlLinker.AddMovies(toAdd, Global.uid);
+                    if (toAdd.Count != 0)
+                    {
+                        await MovieCatalogLibrary.DatabaseHandling.MongoXmlLinker.AddMovies(toAdd, Global.uid);
+                    }    
                 }
             }
 

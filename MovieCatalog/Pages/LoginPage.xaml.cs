@@ -1,4 +1,7 @@
-﻿using System;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Driver;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -55,7 +58,12 @@ namespace MovieCatalog.Pages
                     Global.userLink.DisplayName = Global.userName;
                     Global.userLink.Source = new Uri("/Pages/UserSettingsPage.xaml", UriKind.Relative);
 
-                    MovieCatalogLibrary.DatabaseHandling.MongoXmlLinker.SyncUserFiles(Global.uid);
+                    if(await MovieCatalogLibrary.DatabaseHandling.MongoInteraction.GetUserSyncStatus(Global.userName))
+                    {
+                        MovieCatalogLibrary.DatabaseHandling.MongoXmlLinker.SyncUserFiles(Global.uid);
+                    }
+
+                    //Don't automatically update.
                     NavigationCommands.GoToPage.Execute("/Pages/UserSettingsPage.xaml", this);
                 }
 

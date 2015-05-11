@@ -3,6 +3,7 @@ using MovieCatalogLibrary;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Drawing.Imaging;
 using System.IO;
@@ -31,10 +32,11 @@ namespace MovieCatalog.Pages
     /// </summary>
     public partial class PageControl : UserControl
     {
-        ObservableCollection<Movie> _MovieCollection = Global._MovieCollection;
+        string displayString = "YOUR CATALOG (" + Global._MovieCollection.Count + ")";
         BitmapImage image = new BitmapImage();
         public FileHandler fileHandler = new FileHandler(MovieCatalogLibrary.FileHandler.platformType.Windows);
-        
+
+
         public PageControl()
         {
             initDefaultValues();
@@ -42,7 +44,8 @@ namespace MovieCatalog.Pages
             lblOnlineRating.Content = OnlineRatingDisplay;
             txtDescription.Text = DescriptionDisplay;
             tbGenres.Text = GenresDisplay;
-            tbCatalog.Text = "YOUR CATALOG (" + _MovieCollection.Count + ")";
+            tbCatalog.Text = "YOUR CATALOG (" + Global._MovieCollection.Count + ")";
+            Global._MovieCollection.CollectionChanged += _MovieCollection_CollectionChanged;
         }
 
         /// <summary>
@@ -51,7 +54,7 @@ namespace MovieCatalog.Pages
         /// </summary>
         private void initDefaultValues()
         {
-            _MovieCollection.Clear();
+            Global._MovieCollection.Clear();
             List<Movie> listOfMovies = fileHandler.allMoviesInXml();
 
             if(listOfMovies.Count == 0)
@@ -63,7 +66,7 @@ namespace MovieCatalog.Pages
             {
                 foreach(Movie movie in listOfMovies)
                 {
-                    _MovieCollection.Add(movie);
+                    Global._MovieCollection.Add(movie);
                 }
             }
         }
@@ -73,14 +76,25 @@ namespace MovieCatalog.Pages
         /// </summary>
         public ObservableCollection<Movie> MovieCollection
         {
-            get { return _MovieCollection; }
+            get { return Global._MovieCollection; }
+        }
+
+        public string CatalogDisplay
+        {
+            get { return displayString; }
+
+            set
+            {
+                value = displayString;
+            }
+
         }
 
         private string OnlineRatingDisplay
         {
             get
             {
-                if(_MovieCollection.Count == 0)
+                if (Global._MovieCollection.Count == 0)
                 {
                     return "N/A";
                 }
@@ -95,7 +109,7 @@ namespace MovieCatalog.Pages
                     }
                     else
                     {
-                        return "Rating: " + _MovieCollection[0].onlineRating + "/10";
+                        return "Rating: " + Global._MovieCollection[0].onlineRating + "/10";
                     }
                 }
             }
@@ -105,7 +119,7 @@ namespace MovieCatalog.Pages
         {
             get
             {
-                if (_MovieCollection.Count == 0)
+                if (Global._MovieCollection.Count == 0)
                 {
                     return "N/A";
                 }
@@ -120,7 +134,7 @@ namespace MovieCatalog.Pages
                     }
                     else
                     {
-                        return _MovieCollection[0].description;
+                        return Global._MovieCollection[0].description;
                     }
                 }
             }
@@ -130,7 +144,7 @@ namespace MovieCatalog.Pages
         {
             get
             {
-                if (_MovieCollection.Count == 0)
+                if (Global._MovieCollection.Count == 0)
                 {
                     return "N/A";
                 }
@@ -145,7 +159,7 @@ namespace MovieCatalog.Pages
                     }
                     else
                     {
-                        return _MovieCollection[0].getGenreCommaSeperated();
+                        return Global._MovieCollection[0].getGenreCommaSeperated();
                     }
                 }
             }
@@ -162,7 +176,7 @@ namespace MovieCatalog.Pages
         private async Task setImageContent()
         {
             imgPoster.Source = ImageInterpreters.genericImage();
-            imgPoster.Source = await ImageInterpreters.ImageDisplay(_MovieCollection, lvMovies.SelectedItem as Movie);
+            imgPoster.Source = await ImageInterpreters.ImageDisplay(Global._MovieCollection, lvMovies.SelectedItem as Movie);
         }
 
         private void btnFilter_Click(object sender, RoutedEventArgs e)
@@ -185,18 +199,18 @@ namespace MovieCatalog.Pages
             {
 
                 List<Movie> toSend = new List<Movie>();
-                foreach(Movie item in _MovieCollection)
+                foreach (Movie item in Global._MovieCollection)
                 {
                     toSend.Add(item);
                 }
 
                 List<Movie> movies = Filtering.filterByName(nameFilter, toSend);
 
-                _MovieCollection.Clear();
+                Global._MovieCollection.Clear();
 
                 foreach(Movie item in movies)
                 {
-                    _MovieCollection.Add(item);
+                    Global._MovieCollection.Add(item);
                 }
             }
 
@@ -206,11 +220,11 @@ namespace MovieCatalog.Pages
         {
             List<Movie> movies = fileHandler.allMoviesInXml();
 
-            _MovieCollection.Clear();
+            Global._MovieCollection.Clear();
 
             foreach (Movie item in movies)
             {
-                _MovieCollection.Add(item);
+                Global._MovieCollection.Add(item);
             }
             
         }
@@ -263,10 +277,10 @@ namespace MovieCatalog.Pages
                 finally
                 {
                     List<Movie> temp = fileHandler.allMoviesInXml();
-                    _MovieCollection.Clear();
+                    Global._MovieCollection.Clear();
                     foreach (Movie item in temp)
                     {
-                        _MovieCollection.Add(item);
+                        Global._MovieCollection.Add(item);
                     }
                 }
             }
@@ -275,6 +289,11 @@ namespace MovieCatalog.Pages
         private async void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
             await setImageContent();
+        }
+
+        private void _MovieCollection_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            tbCatalog.Text = "YOUR CATALOG (" + Global._MovieCollection.Count + ")";
         }
     }
 }
