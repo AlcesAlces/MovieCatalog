@@ -266,7 +266,7 @@ namespace MovieCatalog.Pages
 
                     else
                     {
-                        await MovieCatalogLibrary.DatabaseHandling.MongoXmlLinker.RemoveMovies(movies,Global.uid);
+                        await MovieCatalogLibrary.DatabaseHandling.MongoXmlLinker.RemoveMovies(movies,Global.uid, Global.socket);
                     }
 
                 }

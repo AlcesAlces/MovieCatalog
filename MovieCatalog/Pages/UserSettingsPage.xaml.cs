@@ -23,7 +23,7 @@ namespace MovieCatalog.Pages
     {
         public UserSettingsPage()
         {
-            Load();
+            //Load();
             InitializeComponent();
         }
 
@@ -32,18 +32,20 @@ namespace MovieCatalog.Pages
             if (await MovieCatalogLibrary.DatabaseHandling.MongoInteraction.GetUserSyncStatus(Global.userName))
             {
                 rbAutomatic.IsChecked = true;
+                rbManual.IsChecked = false;
             }
 
             else
             {
                 rbManual.IsChecked = true;
+                rbAutomatic.IsChecked = false;
             }
         }
 
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("This may take a minute...");
-            await MovieCatalogLibrary.DatabaseHandling.MongoXmlLinker.SyncUserFiles(Global.uid);
+            await MovieCatalogLibrary.DatabaseHandling.MongoXmlLinker.SyncUserFiles(Global.uid, Global.socket);
 
             FileHandler handler = new FileHandler();
 
@@ -53,12 +55,12 @@ namespace MovieCatalog.Pages
 
         private void rbAutomatic_Checked(object sender, RoutedEventArgs e)
         {
-            MovieCatalogLibrary.DatabaseHandling.MongoInteraction.UpdateUser(Global.userName, true);
+            MovieCatalogLibrary.DatabaseHandling.MongoInteraction.UpdateUser(Global.userName, true, Global.socket);
         }
 
         private void rbManual_Checked(object sender, RoutedEventArgs e)
         {
-            MovieCatalogLibrary.DatabaseHandling.MongoInteraction.UpdateUser(Global.userName, false);
+            MovieCatalogLibrary.DatabaseHandling.MongoInteraction.UpdateUser(Global.userName, false, Global.socket);
         }
     }
 }

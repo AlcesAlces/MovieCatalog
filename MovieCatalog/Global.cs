@@ -1,5 +1,6 @@
 ﻿using FirstFloor.ModernUI.Presentation;
 using MovieCatalogLibrary;
+using SocketIOClient;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -17,5 +18,6 @@ namespace MovieCatalog
         public static string userName = null;
         public static string uid = null;
         public static Link userLink = null;
+        public static Client socket;
     }
 }

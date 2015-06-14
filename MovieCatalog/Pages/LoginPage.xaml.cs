@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using SocketIOClient;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +24,9 @@ namespace MovieCatalog.Pages
     /// </summary>
     public partial class LoginPage : UserControl
     {
+        //TODO: Adjust dbeug statement
+        bool _debug = true;
+
         public LoginPage()
         {
             InitializeComponent();
@@ -40,27 +44,44 @@ namespace MovieCatalog.Pages
 
         private async void login()
         {
-            var checkUser = await MovieCatalogLibrary.DatabaseHandling.MongoInteraction.UserIdByName(tbUsername.Text);
+            //TODO: Replace this commented code.
+            //var checkUser = await MovieCatalogLibrary.DatabaseHandling.MongoInteraction.UserIdByName(tbUsername.Text);
 
-            if (checkUser == null)
-            {
-                MessageBox.Show("Username does not exist");
-            }
+            //if (checkUser == null)
+            //{
+            //    MessageBox.Show("Username does not exist");
+            //}
 
-            else
+            //else
+            //{
+            Global.socket = new Client("http://127.0.0.1:8000/");
+
+            Global.socket.On("connect", (fn) =>
             {
-                if (await MovieCatalogLibrary.DatabaseHandling.MongoInteraction.VerifyCredentials(tbUsername.Text, tbPassword.Password))
+                
+            });
+
+            Global.socket.Connect();
+
+            //TODO: Add timeout code.
+            while (!Global.socket.IsConnected) ;
+
+            MovieCatalogLibrary.DatabaseHandling.PasswordHash pwHash = new MovieCatalogLibrary.DatabaseHandling.PasswordHash();
+
+            if (await MovieCatalogLibrary.DatabaseHandling.MongoInteraction.VerifyCredentials(tbUsername.Text, pwHash.CreateHashNonStatic(tbPassword.Password), Global.socket) || _debug)
                 {
                     //User is logged in
                     Global.userName = tbUsername.Text;
-                    Global.uid = checkUser;
+                //TODO: Change this hardcoding
+                    Global.uid = "5550fc3dc1ec151d044a83b3";
 
                     Global.userLink.DisplayName = Global.userName;
                     Global.userLink.Source = new Uri("/Pages/UserSettingsPage.xaml", UriKind.Relative);
 
                     if(await MovieCatalogLibrary.DatabaseHandling.MongoInteraction.GetUserSyncStatus(Global.userName))
                     {
-                        MovieCatalogLibrary.DatabaseHandling.MongoXmlLinker.SyncUserFiles(Global.uid);
+                        //TODO: uncoment this and fix it too lol
+                        //MovieCatalogLibrary.DatabaseHandling.MongoXmlLinker.SyncUserFiles(Global.uid);
                     }
 
                     //Don't automatically update.
@@ -72,7 +93,7 @@ namespace MovieCatalog.Pages
                     //Incorrect information
                     MessageBox.Show("The information you have have entered is incorrect");
                 }
-            }
+            //}
         }
 
         /// <summary>
@@ -82,11 +103,15 @@ namespace MovieCatalog.Pages
         /// <param name="e"></param>
         private async void btnRegister_Click(object sender, RoutedEventArgs e)
         {
-            var checkUser = await MovieCatalogLibrary.DatabaseHandling.MongoInteraction.UserIdByName(tbUsername.Text);
+            Global.socket = new Client("http://127.0.0.1:8000/");
+
+            //TODO: Uncomment this
+            //var checkUser = await MovieCatalogLibrary.DatabaseHandling.MongoInteraction.UserIdByName(tbUsername.Text);
+            var checkUser = "55513ce59b71ef1088a2115a";
 
             if(checkUser == null)
             {
-                await MovieCatalogLibrary.DatabaseHandling.MongoInteraction.CreateUser(tbUsername.Text, tbPassword.Password);
+                await MovieCatalogLibrary.DatabaseHandling.MongoInteraction.CreateUser(tbUsername.Text, tbPassword.Password, Global.socket);
                 MessageBox.Show("User created successfully! Please log in");
                 tbUsername.Text = "";
                 tbPassword.Password = "";

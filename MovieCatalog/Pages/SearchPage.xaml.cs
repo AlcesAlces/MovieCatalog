@@ -160,7 +160,7 @@ namespace MovieCatalog.Pages
                 {
                     if (toAdd.Count != 0)
                     {
-                        await MovieCatalogLibrary.DatabaseHandling.MongoXmlLinker.AddMovies(toAdd, Global.uid);
+                        await MovieCatalogLibrary.DatabaseHandling.MongoXmlLinker.AddMovies(toAdd, Global.uid, Global.socket);
                     }    
                 }
             }
