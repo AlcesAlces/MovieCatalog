@@ -51,12 +51,26 @@ namespace MovieCatalog.Pages
             var movies = tmdbHelper.movieResultsBySearch(searchString);
             foreach (MovieResult item in movies)
             {
-                _MovieCollection.Add(new Movie()
+                if(item.release_date == null)
                 {
-                    name = item.title,
-                    year = item.release_date.ToString(),
-                    mid = item.id
-                });
+                    _MovieCollection.Add(new Movie()
+                    {
+                        name = item.title,
+                        year = "NONE",
+                        mid = item.id
+                    });
+                }
+
+                else
+                {
+                    _MovieCollection.Add(new Movie()
+                    {
+                        name = item.title,
+                        year = item.release_date.ToString(),
+                        mid = item.id
+                    });
+                }
+                
             }
 
             //Set the currently selected movie to the first element.
