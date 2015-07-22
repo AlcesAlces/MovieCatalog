@@ -25,7 +25,7 @@ namespace MovieCatalog.Pages
     public partial class LoginPage : UserControl
     {
         //TODO: Adjust dbeug statement
-        bool _debug = true;
+        bool _debug = false;
 
         public LoginPage()
         {
@@ -54,7 +54,9 @@ namespace MovieCatalog.Pages
 
             //else
             //{
-            Global.socket = new Client("http://127.0.0.1:8000/");
+            Global.socket = new Client(Global.connectionString);
+
+            //System.Net.WebRequest.DefaultWebProxy = null;
 
             Global.socket.On("connect", (fn) =>
             {
@@ -67,13 +69,25 @@ namespace MovieCatalog.Pages
             while (!Global.socket.IsConnected) ;
 
             MovieCatalogLibrary.DatabaseHandling.PasswordHash pwHash = new MovieCatalogLibrary.DatabaseHandling.PasswordHash();
-
-            if (await MovieCatalogLibrary.DatabaseHandling.MongoInteraction.VerifyCredentials(tbUsername.Text, pwHash.CreateHashNonStatic(tbPassword.Password), Global.socket) || _debug)
+            string userId = "";
+            try
+            {
+                userId = await MovieCatalogLibrary.DatabaseHandling.MongoInteraction.VerifyCredentials(tbUsername.Text, tbPassword.Password, Global.socket);
+            }
+            catch(Exception ex)
+            {
+                if(ex.Message == "TIMEOUT")
+                {
+                    //TODO: Do something more graceful.
+                    MessageBox.Show("Connection timeout");
+                    return;
+                }
+            }
+                if ( userId != String.Empty || _debug)
                 {
                     //User is logged in
                     Global.userName = tbUsername.Text;
-                //TODO: Change this hardcoding
-                    Global.uid = "5550fc3dc1ec151d044a83b3";
+                    Global.uid = userId;
 
                     Global.userLink.DisplayName = Global.userName;
                     Global.userLink.Source = new Uri("/Pages/UserSettingsPage.xaml", UriKind.Relative);
@@ -103,13 +117,17 @@ namespace MovieCatalog.Pages
         /// <param name="e"></param>
         private async void btnRegister_Click(object sender, RoutedEventArgs e)
         {
-            Global.socket = new Client("http://127.0.0.1:8000/");
+            Global.socket = new Client(Global.connectionString);
+            Global.socket.On("connect", (fn) =>
+            {
 
-            //TODO: Uncomment this
-            //var checkUser = await MovieCatalogLibrary.DatabaseHandling.MongoInteraction.UserIdByName(tbUsername.Text);
-            var checkUser = "55513ce59b71ef1088a2115a";
+            });
+            Global.socket.Connect();
+            while (!Global.socket.IsConnected) ;
 
-            if(checkUser == null)
+            var checkUser = tbUsername.Text;
+
+            if(!await MovieCatalogLibrary.DatabaseHandling.MongoInteraction.doesUserExist(checkUser, Global.socket))
             {
                 await MovieCatalogLibrary.DatabaseHandling.MongoInteraction.CreateUser(tbUsername.Text, tbPassword.Password, Global.socket);
                 MessageBox.Show("User created successfully! Please log in");

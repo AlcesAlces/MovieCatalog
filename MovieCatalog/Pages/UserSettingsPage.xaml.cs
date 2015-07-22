@@ -45,7 +45,15 @@ namespace MovieCatalog.Pages
         private async void Button_Click(object sender, RoutedEventArgs e)
         {
             MessageBox.Show("This may take a minute...");
-            await MovieCatalogLibrary.DatabaseHandling.MongoXmlLinker.SyncUserFiles(Global.uid, Global.socket);
+            try
+            {
+                await MovieCatalogLibrary.DatabaseHandling.MongoXmlLinker.SyncUserFiles(Global.uid, Global.socket);
+            }
+            catch(Exception ex)
+            {
+                //TODO: more elegant way of displaying this.
+                MessageBox.Show(ex.Message);
+            }
 
             FileHandler handler = new FileHandler();
 

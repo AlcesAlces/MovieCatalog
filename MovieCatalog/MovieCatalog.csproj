@@ -50,10 +50,6 @@
     <Reference Include="MongoDB.Driver.Core">
       <HintPath>..\packages\MongoDB.Driver.Core.2.0.0\lib\net45\MongoDB.Driver.Core.dll</HintPath>
     </Reference>
-    <Reference Include="MovieCatalogLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\MovieCatalogLibrary\MovieCatalogLibrary\bin\Debug\MovieCatalogLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -200,6 +196,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="HelperClasses\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MovieCatalogLibrary\MovieCatalogLibrary\MovieCatalogLibrary.csproj">
+      <Project>{d8b38a3e-9eee-4b62-bd82-927d8a4c693d}</Project>
+      <Name>MovieCatalogLibrary</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

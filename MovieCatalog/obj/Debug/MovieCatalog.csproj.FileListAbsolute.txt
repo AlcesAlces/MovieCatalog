@@ -1,0 +1,7 @@
+E:\C#Projects\MovieCatalog\MovieCatalog\bin\Debug\MovieCatalog.exe
+E:\C#Projects\MovieCatalog\MovieCatalog\bin\Debug\FirstFloor.ModernUI.dll
+E:\C#Projects\MovieCatalog\MovieCatalog\bin\Debug\MovieCatalogLibrary.dll
+E:\C#Projects\MovieCatalog\MovieCatalog\bin\Debug\Newtonsoft.Json.dll
+E:\C#Projects\MovieCatalog\MovieCatalog\bin\Debug\SocketIOClient.dll
+E:\C#Projects\MovieCatalog\MovieCatalog\bin\Debug\WebSocket4Net.dll
+E:\C#Projects\MovieCatalog\MovieCatalog\bin\Debug\log4net.dll
