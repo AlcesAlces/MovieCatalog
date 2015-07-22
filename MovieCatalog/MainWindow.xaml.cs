@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MovieCatalogLibrary.DatabaseHandling;
 using FirstFloor.ModernUI.Presentation;
+using System.Threading;
 
 namespace MovieCatalog
 {
@@ -31,6 +32,15 @@ namespace MovieCatalog
             fileHandler.verifyUserFile();
             InitializeComponent();
             Global.userLink = this.TitleLinks.ElementAt(1);
+        }
+
+        private void ModernWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            
+            //Global.socket.Dispose();
+            //Global.socket = null;
+            //Global._MovieCollection = null;
+            //System.GC.Collect();
         }
     }
 }
