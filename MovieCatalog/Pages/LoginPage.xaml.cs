@@ -4,6 +4,7 @@ using MongoDB.Driver;
 using SocketIOClient;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -39,7 +40,31 @@ namespace MovieCatalog.Pages
         /// <param name="e"></param>
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            login();
+
+            tbPassword.IsEnabled = false;
+            tbUsername.IsEnabled = false;
+            btnLogin.IsEnabled = false;
+            btnRegister.IsEnabled = false;
+
+            var bw = new BackgroundWorker();
+            bw.DoWork += (sender2, args) =>
+                {
+                    login();
+                };
+
+            bw.RunWorkerCompleted += (sender2, args) =>
+                {
+                    if (Global.uid != null)
+                    {
+                        NavigationCommands.GoToPage.Execute("/Pages/UserSettingsPage.xaml", this);
+                    }
+
+                    tbPassword.IsEnabled = true;
+                    tbUsername.IsEnabled = true;
+                    btnLogin.IsEnabled = true;
+                    btnRegister.IsEnabled = true;
+                };
+            bw.RunWorkerAsync();
         }
 
         private async void login()
@@ -70,9 +95,19 @@ namespace MovieCatalog.Pages
 
             MovieCatalogLibrary.DatabaseHandling.PasswordHash pwHash = new MovieCatalogLibrary.DatabaseHandling.PasswordHash();
             string userId = "";
+            string username = "";
+            string password = "";
             try
-            {
-                userId = await MovieCatalogLibrary.DatabaseHandling.MongoInteraction.VerifyCredentials(tbUsername.Text, tbPassword.Password, Global.socket);
+            {                
+                Dispatcher.Invoke((Action)(() =>
+                        {
+                            username = tbUsername.Text;
+                        }));
+                Dispatcher.Invoke((Action)(() =>
+                    {
+                        password = tbPassword.Password;
+                    }));
+                userId = await MovieCatalogLibrary.DatabaseHandling.MongoInteraction.VerifyCredentials(username, password, Global.socket);
             }
             catch(Exception ex)
             {
@@ -83,30 +118,27 @@ namespace MovieCatalog.Pages
                     return;
                 }
             }
-                if ( userId != String.Empty || _debug)
+            if (userId != String.Empty || _debug)
+            {
+                //User is logged in
+                Global.userName = username;
+                Global.uid = userId;
+
+                Global.userLink.DisplayName = Global.userName;
+                Global.userLink.Source = new Uri("/Pages/UserSettingsPage.xaml", UriKind.Relative);
+
+                if (await MovieCatalogLibrary.DatabaseHandling.MongoInteraction.GetUserSyncStatus(Global.userName))
                 {
-                    //User is logged in
-                    Global.userName = tbUsername.Text;
-                    Global.uid = userId;
-
-                    Global.userLink.DisplayName = Global.userName;
-                    Global.userLink.Source = new Uri("/Pages/UserSettingsPage.xaml", UriKind.Relative);
-
-                    if(await MovieCatalogLibrary.DatabaseHandling.MongoInteraction.GetUserSyncStatus(Global.userName))
-                    {
-                        //TODO: uncoment this and fix it too lol
-                        //MovieCatalogLibrary.DatabaseHandling.MongoXmlLinker.SyncUserFiles(Global.uid);
-                    }
-
-                    //Don't automatically update.
-                    NavigationCommands.GoToPage.Execute("/Pages/UserSettingsPage.xaml", this);
+                    //TODO: uncoment this and fix it too lol
+                    //MovieCatalogLibrary.DatabaseHandling.MongoXmlLinker.SyncUserFiles(Global.uid);
                 }
+            }
 
-                else
-                {
-                    //Incorrect information
-                    MessageBox.Show("The information you have have entered is incorrect");
-                }
+            else
+            {
+                //Incorrect information
+                MessageBox.Show("The information you have have entered is incorrect");
+            }
             //}
         }
 

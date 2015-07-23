@@ -3,10 +3,12 @@ using MovieCatalogLibrary;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,7 +30,7 @@ namespace MovieCatalog.Pages
     {
         private readonly string apikey = "56587e13dc926d742e62c09151418bd3";
         private readonly string language = "en";
-        ObservableCollection<Movie> _MovieCollection = new ObservableCollection<Movie>();
+        List<Movie> _MovieCollection = new List<Movie>();
         TmdbMovie selectedMovie = null;
         TMDBHelper tmdbHelper = new TMDBHelper();
         FileHandler fileHandler = new FileHandler(FileHandler.platformType.Windows);
@@ -48,52 +50,133 @@ namespace MovieCatalog.Pages
             _MovieCollection.Clear();
 
             string searchString = txtSearch.Text;
-            var movies = tmdbHelper.movieResultsBySearch(searchString);
-            foreach (MovieResult item in movies)
-            {
-                if(item.release_date == null)
+
+            var bw = new BackgroundWorker();
+
+            txtSearch.IsEnabled = false;
+            btnAdd.IsEnabled = false;
+            btnSearch.IsEnabled = false;
+
+
+            bw.DoWork += (sender, args) =>
                 {
-                    _MovieCollection.Add(new Movie()
+                    var movies = tmdbHelper.movieResultsBySearch(searchString);
+                    foreach (MovieResult item in movies)
                     {
-                        name = item.title,
-                        year = "NONE",
-                        mid = item.id
-                    });
-                }
+                        if (item.release_date == null)
+                        {
+                            _MovieCollection.Add(new Movie()
+                            {
+                                name = item.title,
+                                year = "NONE",
+                                mid = item.id
+                            });
+                        }
 
-                else
+                        else
+                        {
+                            _MovieCollection.Add(new Movie()
+                            {
+                                name = item.title,
+                                year = item.release_date.ToString(),
+                                mid = item.id
+                            });
+                        }
+
+                    }
+                    //Set the currently selected movie to the first element.
+                    if (movies.Count != 0)
+                    {
+                        Dispatcher.Invoke((Action)(() =>
+                        {
+                            selectedMovie = tmdbHelper.getTmdbMovieById(movies[0].id);
+                        }));
+                        Dispatcher.Invoke((Action)(() =>
+                        {
+                            txtDescription.Text = Description;
+                            lblTitle.Content = TitleDisplay;
+                        }));
+                    }
+
+                    //Scroll to the top of the list
+                    if (lvResults.Items.Count > 0)
+                    {
+                        Dispatcher.Invoke((Action)(() =>
+                        {
+                            lvResults.ScrollIntoView(lvResults.Items[0]);
+                        }));
+                    }
+                };
+
+            bw.RunWorkerCompleted += (sender, args) =>
                 {
-                    _MovieCollection.Add(new Movie()
-                    {
-                        name = item.title,
-                        year = item.release_date.ToString(),
-                        mid = item.id
-                    });
-                }
-                
-            }
+                    applyImageResults();
+                    //Was having an issue where the listview box wasn't refreshing.
+                    lvResults.Items.Refresh();
+                    txtSearch.IsEnabled = true;
+                    btnAdd.IsEnabled = true;
+                    btnSearch.IsEnabled = true;
+                };
 
-            //Set the currently selected movie to the first element.
-            if(movies.Count != 0)
-            {
-                selectedMovie = tmdbHelper.getTmdbMovieById(movies[0].id);
-                txtDescription.Text = Description;
-                lblTitle.Content = TitleDisplay;
-            }
+            bw.RunWorkerAsync();
+            //var thread = new Thread(() =>
+            //{
+            //    var movies = tmdbHelper.movieResultsBySearch(searchString);
+            //    foreach (MovieResult item in movies)
+            //    {
+            //        if (item.release_date == null)
+            //        {
+            //            _MovieCollection.Add(new Movie()
+            //            {
+            //                name = item.title,
+            //                year = "NONE",
+            //                mid = item.id
+            //            });
+            //        }
 
-            applyImageResults();
+            //        else
+            //        {
+            //            _MovieCollection.Add(new Movie()
+            //            {
+            //                name = item.title,
+            //                year = item.release_date.ToString(),
+            //                mid = item.id
+            //            });
+            //        }
 
-            //Scroll to the top of the list
-            if (lvResults.Items.Count > 0)
-            {
-                lvResults.ScrollIntoView(lvResults.Items[0]);
-            }
+            //    }
+            //    //Set the currently selected movie to the first element.
+            //    if (movies.Count != 0)
+            //    {
+            //        Dispatcher.Invoke((Action)(() =>
+            //            {
+            //                selectedMovie = tmdbHelper.getTmdbMovieById(movies[0].id);
+            //            }));
+            //        Dispatcher.Invoke((Action)(() =>
+            //            {
+            //                txtDescription.Text = Description;
+            //                lblTitle.Content = TitleDisplay;
+            //            }));
+            //    }
+
+            //    //Scroll to the top of the list
+            //    if (lvResults.Items.Count > 0)
+            //    {
+            //        Dispatcher.Invoke((Action)(() =>
+            //            {
+            //                lvResults.ScrollIntoView(lvResults.Items[0]);
+            //            }));
+            //    }
+            //});
+
+            //thread.Start();
+            
         }
 
         /// <summary>
         /// binding interface for the movie list box
         /// </summary>
-        public ObservableCollection<Movie> MovieCollection
+        public List<Movie> MovieCollection
         {
             get { return _MovieCollection; }
         }
@@ -215,7 +298,11 @@ namespace MovieCatalog.Pages
         {
             if (lvResults.Items.Count > 0)
             {
-                Movie movieId = ((Movie)lvResults.SelectedItem);
+                Movie movieId = null;
+                Dispatcher.Invoke((Action)(() =>
+                        {
+                            movieId = ((Movie)lvResults.SelectedItem);
+                        }));
                 Tmdb connection = new Tmdb(apikey, language);
                 TmdbMovieImages images;
 
@@ -247,7 +334,10 @@ namespace MovieCatalog.Pages
         {
             if (images.posters.Count() == 0)
             {
-                imageSearch.Source = genericImage();
+                Dispatcher.Invoke((Action)(() =>
+                        {
+                            imageSearch.Source = genericImage();
+                        }));
             }
 
             else
@@ -256,7 +346,10 @@ namespace MovieCatalog.Pages
                 bitmap.BeginInit();
                 bitmap.UriSource = new Uri(Global.moviePosterPath + images.posters[0].file_path, UriKind.Absolute);
                 bitmap.EndInit();
-                imageSearch.Source = bitmap;
+                Dispatcher.Invoke((Action)(() =>
+                        {
+                            imageSearch.Source = bitmap;
+                        }));
             }
         }
 
