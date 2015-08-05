@@ -4,16 +4,16 @@
 winexe
 C#
 .cs
-E:\C#Projects\MovieCatalog\MovieCatalog\obj\Debug\
+E:\C#Projects\MovieCatalog\MovieCatalog\obj\Release\
 MovieCatalog
 none
 false
-DEBUG;TRACE
+TRACE
 E:\C#Projects\MovieCatalog\MovieCatalog\App.xaml
 10577440610
 21942735505
-22941978940
-261793554517
+18450953890
+24-681917999
 Pages\BasicPage.xaml;MainWindow.xaml;Pages\LoginPage.xaml;Pages\PageControl.xaml;Pages\SearchPage.xaml;Pages\Settings\About.xaml;Pages\Settings\Appearance.xaml;Pages\Home.xaml;Pages\SettingsPage.xaml;Pages\UserSettingsPage.xaml;
 
 False

@@ -1,6 +1,7 @@
 ﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Driver;
+using MovieCatalog.Helper_Functions;
 using SocketIOClient;
 using System;
 using System.Collections.Generic;
@@ -91,7 +92,15 @@ namespace MovieCatalog.Pages
             Global.socket.Connect();
 
             //TODO: Add timeout code.
-            while (!Global.socket.IsConnected) ;
+            try
+            {
+                while (!Global.socket.IsConnected) ;
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }
 
             MovieCatalogLibrary.DatabaseHandling.PasswordHash pwHash = new MovieCatalogLibrary.DatabaseHandling.PasswordHash();
             string userId = "";
@@ -107,7 +116,9 @@ namespace MovieCatalog.Pages
                     {
                         password = tbPassword.Password;
                     }));
+                password = Hashing.stringTohash(password);
                 userId = await MovieCatalogLibrary.DatabaseHandling.MongoInteraction.VerifyCredentials(username, password, Global.socket);
+
             }
             catch(Exception ex)
             {
@@ -161,7 +172,7 @@ namespace MovieCatalog.Pages
 
             if(!await MovieCatalogLibrary.DatabaseHandling.MongoInteraction.doesUserExist(checkUser, Global.socket))
             {
-                await MovieCatalogLibrary.DatabaseHandling.MongoInteraction.CreateUser(tbUsername.Text, tbPassword.Password, Global.socket);
+                await MovieCatalogLibrary.DatabaseHandling.MongoInteraction.CreateUser(tbUsername.Text, Hashing.stringTohash(tbPassword.Password), Global.socket);
                 MessageBox.Show("User created successfully! Please log in");
                 tbUsername.Text = "";
                 tbPassword.Password = "";
@@ -177,7 +188,30 @@ namespace MovieCatalog.Pages
         {
             if (e.Key == Key.Enter)
             {
-                login();
+                tbPassword.IsEnabled = false;
+                tbUsername.IsEnabled = false;
+                btnLogin.IsEnabled = false;
+                btnRegister.IsEnabled = false;
+
+                var bw = new BackgroundWorker();
+                bw.DoWork += (sender2, args) =>
+                {
+                    login();
+                };
+
+                bw.RunWorkerCompleted += (sender2, args) =>
+                {
+                    if (Global.uid != null)
+                    {
+                        NavigationCommands.GoToPage.Execute("/Pages/UserSettingsPage.xaml", this);
+                    }
+
+                    tbPassword.IsEnabled = true;
+                    tbUsername.IsEnabled = true;
+                    btnLogin.IsEnabled = true;
+                    btnRegister.IsEnabled = true;
+                };
+                bw.RunWorkerAsync();
             }
         }
     }
