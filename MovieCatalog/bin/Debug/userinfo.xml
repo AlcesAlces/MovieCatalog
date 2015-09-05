@@ -1,18 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <usersettings>
   <movies>
-    <movie>
-      <name>The Lord of the Rings: The Fellowship of the Ring</name>
-      <genres>
-      </genres>
-      <year>2001-12-19</year>
-      <image>/9HG6pINW1KoFTAKY3LdybkoOKAm.jpg</image>
-      <movieid>120</movieid>
-      <rating>7.6</rating>
-      <description>Young hobbit Frodo Baggins, after inheriting a mysterious ring from his uncle Bilbo, must leave his home in order to keep it from falling into the hands of its evil creator. Along the way, a fellowship is formed to protect the ringbearer and make sure that the ring arrives at its final destination: Mt. Doom, the only place where it can be destroyed.</description>
-      <posternum>0</posternum>
-      <userrating>0</userrating>
-    </movie>
   </movies>
   <settings />
 </usersettings>
