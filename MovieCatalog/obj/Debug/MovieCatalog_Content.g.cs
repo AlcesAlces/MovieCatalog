@@ -8,6 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("actionclicker_1.ico")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("xmlsettings/moviedatabase.xml")]
 [assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("xmlsettings/usersettings.xml")]
 

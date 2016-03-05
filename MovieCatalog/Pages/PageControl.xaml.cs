@@ -39,6 +39,7 @@ namespace MovieCatalog.Pages
 
         public PageControl()
         {
+            Global.test = this;
             initDefaultValues();
             InitializeComponent();
             lblOnlineRating.Content = OnlineRatingDisplay;
@@ -77,6 +78,7 @@ namespace MovieCatalog.Pages
         public ObservableCollection<Movie> MovieCollection
         {
             get { return Global._MovieCollection; }
+            set { Global._MovieCollection = value; }
         }
 
         public string CatalogDisplay

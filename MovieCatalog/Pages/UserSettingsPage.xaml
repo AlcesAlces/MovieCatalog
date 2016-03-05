@@ -29,7 +29,7 @@
                     </StackPanel>
                 </Border>
                 
-                <Button HorizontalAlignment="Left" Content="Sync" Width="262" Click="Button_Click"/>
+                <Button HorizontalAlignment="Left" Content="Sync" Width="262" Click="Button_Click" x:Name="btnSync"/>
                 
             </StackPanel>
         </ScrollViewer>

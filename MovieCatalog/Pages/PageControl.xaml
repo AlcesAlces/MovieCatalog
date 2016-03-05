@@ -19,7 +19,7 @@
         <Button x:Name="btnFilter" Content="Apply Filter" HorizontalAlignment="Left" VerticalAlignment="Top" Width="120" Margin="301,72,0,0" Height="26" Click="btnFilter_Click" Grid.Row="2"/>
         <TextBox HorizontalAlignment="Left" Height="23" Margin="10,65,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Name="tbName" Grid.Row="2"/>
 
-        <ListView x:Name="lvMovies" HorizontalAlignment="Left" Height="218" VerticalAlignment="Top" Width="257" ItemsSource="{Binding MovieCollection}" SelectionChanged="lvMovies_SelectionChanged" KeyDown="lvMovies_KeyDown" Margin="0,29,0,0" Grid.Row="1">
+        <ListView x:Name="lvMovies" HorizontalAlignment="Left" Height="218" VerticalAlignment="Top" Width="257" ItemsSource="{Binding MovieCollection, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}" SelectionChanged="lvMovies_SelectionChanged" KeyDown="lvMovies_KeyDown" Margin="0,29,0,0" Grid.Row="1">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Width="150" Header="Name" DisplayMemberBinding="{Binding name}"/>
